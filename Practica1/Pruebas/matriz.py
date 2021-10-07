@@ -20,7 +20,7 @@ class MatrizColor:
             print("\n")
 
     def getVal(self, i, j):
-        print(self.matriz[i][j])
+        return self.matriz[i][j]
 
     def setVal(self, i, j, val):
         self.matriz[i][j] = val

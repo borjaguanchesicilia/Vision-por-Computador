@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import Image, filedialog, Label
 import os
 from PIL import Image
-from matriz import *
+from operaciones import *
 
 
 
@@ -17,74 +17,24 @@ def abrirImagen():
     matrizR = MatrizColor(row, col)
     matrizG = MatrizColor(row, col)
     matrizB = MatrizColor(row, col)
+    matrizEscalaGrises = MatrizColor(row, col)
 
     cont = 0
-    i = 0
-
-    print(datos[456])
-
-    f = open("fichero.txt", "w")
-    g = open("fichero2.txt", "w")
-    g.write(str(datos))
     k = 0
+
     for i in range(row):
         if i != row:
             while (cont < col):
-                #print(i, cont)
-                #f.write(str(datos[k][0]) + "\n")
-                #f.write(str(datos[k][0]) + "  " + str(datos[k][1]) + "  " + str(datos[k][2]) + "\n")
-                matrizR.setVal(i, cont, int(datos[k][0])); matrizG.setVal(i, cont, int(datos[k][1])); matrizB.setVal(i, cont, int(datos[k][2]))
+                matrizR.setVal(i, cont, int(datos[k][0]))
+                matrizG.setVal(i, cont, int(datos[k][1]))
+                matrizB.setVal(i, cont, int(datos[k][2]))
+                # Codificación escala de grises PAL
+                matrizEscalaGrises.setVal(i, cont, ((0.222 * int(datos[k][0])+ (0.707 * int(datos[k][1])) + (0.071 * int(datos[k][2])))))
                 cont += 1
                 k += 1
-            i += 1
             cont = 0
-        f.write("\n\n")
 
-    matrizG.mostrar()
-        
-
-    """matrizR = []
-    matrizG = []
-    matrizB = []
-    matrizDatos = []
-    arrayColores = []
-    array = []
-
-    for i in range(row):
-        for j in range(col):
-            array.append(0); arrayColores.append(0)
-        matrizR.append(arrayColores)
-        matrizG.append(arrayColores)
-        matrizB.append(arrayColores)
-        matrizDatos.append(array)
-        array = []; arrayColores = []
-
-    
-    print("El tamaño de las matrices de colores es: ", len(matrizR), len(matrizR[4]))
-
-    i = 0; j = 0
-
-    for k in range(len(datos)):
-        if (j != col-1):
-            matrizDatos[i][j] = datos[k]
-            j += 1
-        else:
-            i += 1
-            j = 0
-
-    print(matrizDatos[4][4][0], matrizDatos[4][4][1], matrizDatos[4][4][2])
-    print(matrizR[0][829], matrizG[0][829])
-    i = 0; j = 0
-
-    for i in range(row):
-        for j in range(col):
-            matrizR[i][j] = matrizDatos[i][j][0]
-            matrizG[i][j] = matrizDatos[i][j][1]
-            matrizB[i][j] = matrizDatos[i][j][2]
-            print(i, j)
-
-    print("OK")"""
-
+    print(f'EL brillo de R es: {brillo(matrizR, row, col)}')
 
  
 def guardar():
@@ -126,7 +76,7 @@ def main():
 
     app.config(menu=barraMenu)
 
-    label = Label(text="Herramienta para el procesamiento de imágenes")
+    label = Label(text="F O T O C H O P")
     label.pack()
     label.config(fg="black", bg="#58F49A", font=("Verdana", 24))
 
