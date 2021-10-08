@@ -1,4 +1,4 @@
-class MatrizColor:
+class Matriz:
     
     def __init__(self, filas, columnas):
         self.filas = filas
@@ -12,12 +12,20 @@ class MatrizColor:
             self.matriz.append(vector)
             vector = []
 
+    def actualizar(self, filas, columnas):
+        self.__init__(filas, columnas)
+
+
     def mostrar(self):
 
         for i in range(self.filas):
             for j in range(self.columnas):
                 print(self.matriz[i][j], end=" ")
             print("\n")
+
+    def getFilas(self):
+        return self.filas
+
 
     def getVal(self, i, j):
         return self.matriz[i][j]
