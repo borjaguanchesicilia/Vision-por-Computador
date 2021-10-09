@@ -12,6 +12,7 @@ class Matriz:
             self.matriz.append(vector)
             vector = []
 
+
     def actualizar(self, filas, columnas):
         self.__init__(filas, columnas)
 
@@ -23,12 +24,18 @@ class Matriz:
                 print(self.matriz[i][j], end=" ")
             print("\n")
 
+
     def getFilas(self):
         return self.filas
+
+    
+    def getColumnas(self):
+        return self.columnas
 
 
     def getVal(self, i, j):
         return self.matriz[i][j]
+
 
     def setVal(self, i, j, val):
         self.matriz[i][j] = val

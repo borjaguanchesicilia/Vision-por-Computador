@@ -3,12 +3,12 @@ import os
 from PIL import Image
 from operaciones import *
 
-rutaImagen = ""
+nombreImagen = ""
 matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
 filas = 0; columnas = 0; histograma = []; brillo = 0
 
 def abrirImagen():
-    global rutaImagen
+    global nombreImagen
     global columnas
     global filas
     global matrizR
@@ -19,8 +19,16 @@ def abrirImagen():
     ruta = str(os.path.dirname(os.path.abspath(__file__)))
     rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = "Abrir imagen",filetypes = (("Imagenes","*.jpg;*.png"),("All files","*.*"))))
     imagen = Image.open(rutaImagen, 'r')
-    #imagen = Image.open("./benijo.jpg", 'r')
     imagen.show()
+    nombreImagen = rutaImagen[::-1]
+    index = 0	
+    for i in range(len(nombreImagen)):
+        if (nombreImagen[i] == "/"):
+            index = i
+            break
+        
+    nombreImagen = nombreImagen[0:index][::-1]
+    #imagen = Image.open("./benijo.jpg", 'r')
 
     columnas, filas = imagen.size
     datos = list(imagen.getdata())
@@ -64,7 +72,7 @@ def fHistograma():
 
     if (matrizEscalaGrises.getFilas() != 0):
         histograma = calcularHistograma(matrizEscalaGrises, filas, columnas)
-        graficarHistograma(histograma, rutaImagen)
+        graficarHistograma(histograma, nombreImagen)
     else:
         fError()
 
