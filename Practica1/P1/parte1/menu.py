@@ -7,7 +7,7 @@ def main():
 
     #app.attributes("-fullscreen", True)
     app.geometry('1200x500')
-    app['bg']='#1469BE'
+    app['bg']='#FFFFFF'
     app.title("beta FOTOSHOP")
 
     barraMenu = tk.Menu(app)
