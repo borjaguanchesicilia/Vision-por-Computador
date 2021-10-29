@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import Label, Image, filedialog, messagebox
 import os
 from PIL import Image, ImageTk
+from matplotlib.pyplot import hist
 from operaciones import *
 
 app = tk.Tk()
@@ -30,7 +31,6 @@ def abrirImagen():
             break
 
     nombreImagen = nombreImagen[0:index][::-1]
-    imagen1(nombreImagen)
     
     #imagen = Image.open("./benijo.jpg", 'r')
 
@@ -44,6 +44,9 @@ def abrirImagen():
     matrizG.actualizar(filas, columnas)
     matrizB.actualizar(filas, columnas)
     matrizEscalaGrises.actualizar(filas, columnas)
+
+    imagen1(nombreImagen)
+    imagen2("blanco.png")
 
     cont = 0
     k = 0
@@ -85,9 +88,13 @@ def fHistograma():
 
 
 def fBrillo():
+
+    global histograma
     global brillo
 
     if (matrizEscalaGrises.getFilas() != 0):
+        if (len(histograma) == 0):
+            histograma = calcularHistograma(matrizEscalaGrises, filas, columnas)
         brillo = calcularBrillo(histograma, filas, columnas)
         messagebox.showinfo(title="Brillo", message=f"El brillo es: {str(brillo)}")
     else:
@@ -95,7 +102,15 @@ def fBrillo():
 
 
 def fContraste():
+
+    global histograma
+    global brillo
+    global contraste
+
     if (matrizEscalaGrises.getFilas() != 0):
+        if (len(histograma) == 0):
+            histograma = calcularHistograma(matrizEscalaGrises, filas, columnas)
+            brillo = calcularBrillo(histograma, filas, columnas)
         contraste = calcularContraste(histograma, filas, columnas, brillo)
         messagebox.showinfo(title="Contraste", message=f"El contraste es: {str(contraste)}")
     else:
@@ -104,14 +119,18 @@ def fContraste():
 
 def imagen1(nombre):
 
-    img = ImageTk.PhotoImage(Image.open(nombre).resize((390,265)))
-    im = Label(app, image=img)
-    im.pack(side = "bottom", fill = "both", expand = "yes")
+    global histograma
+    global brillo
+
+    im = ImageTk.PhotoImage(Image.open(nombre).resize((390,265)))
+    imagen1 = tk.Label(image=im)
+    imagen1.image = im
+    imagen1.place(x=90, y=90)
 
 
 def imagen2(nombre):
 
     im2 = ImageTk.PhotoImage(Image.open(nombre).resize((390,265)))
-    canvas2 = tk.Canvas(app)
-    canvas2.place(x=800, y=70)
-    Canvas_Image2 = canvas2.create_image(0,0, image=im2, anchor="nw")
+    imagen2 = tk.Label(image=im2)
+    imagen2.image = im2
+    imagen2.place(x=800, y=90)

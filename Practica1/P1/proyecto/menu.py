@@ -34,5 +34,5 @@ def main():
     label.pack()
     label.config(fg="black", bg="#FFFFFF", font=("Helvetica 30 bold"))
 
-main()
+app.after(1000, main())
 app.mainloop()
