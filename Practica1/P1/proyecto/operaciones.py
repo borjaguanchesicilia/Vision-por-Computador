@@ -1,4 +1,4 @@
-from math import pow, sqrt
+from math import pow, sqrt, log2
 import matplotlib.pyplot as plt
 from matriz import *
 
@@ -47,3 +47,17 @@ def calcularContraste(histograma, filas, columnas, media):
     desviacion = sqrt(sum / n)
 
     return round(desviacion)
+
+
+def calcularEntropia(histograma, filas, columnas,):
+
+    n = filas*columnas; sum = 0; entropia = 0; probI = 0
+
+    for i in range(len(histograma)):
+        probI = histograma[i] / n
+        if (probI != 0.0):
+            sum += probI * log2(probI)
+    
+    entropia = -sum
+
+    return entropia

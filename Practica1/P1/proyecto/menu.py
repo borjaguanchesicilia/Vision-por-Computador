@@ -10,8 +10,9 @@ def main():
     app.geometry('1200x500')
     app['bg']='#FFFFFF'
     app.title("beta FOTOSHOP")
-
-    barraMenu = tk.Menu(app)
+    label = Label(text="F O T O S H O P")
+    label.pack()
+    label.config(fg="black", bg="#FFFFFF", font=("Helvetica 30 bold"))
 
     # Menu del archivo
     menuArchivo = tk.Menu(barraMenu)
@@ -26,13 +27,11 @@ def main():
     menuHerramientas.add_command(label="Histograma", command=fHistograma)
     menuHerramientas.add_command(label="Brillo", command=fBrillo)
     menuHerramientas.add_command(label="Contraste", command=fContraste)
+    menuHerramientas.add_command(label="Entropía", command=fEntropia)
     barraMenu.add_cascade(label="Herramientas", menu=menuHerramientas)
 
+    
     app.config(menu=barraMenu)
 
-    label = Label(text="F O T O S H O P")
-    label.pack()
-    label.config(fg="black", bg="#FFFFFF", font=("Helvetica 30 bold"))
-
-app.after(1000, main())
+main()
 app.mainloop()

@@ -1,24 +1,25 @@
 import tkinter as tk
 from tkinter import Label, Image, filedialog, messagebox
 import os
+from tkinter.constants import END
+import numpy as np
 from PIL import Image, ImageTk
-from matplotlib.pyplot import hist
+from matplotlib.pyplot import bar, hist
+from functools import partial
+from numpy.core.numeric import indices
 from operaciones import *
 
-app = tk.Tk()
-nombreImagen = ""
-matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
-filas = 0; columnas = 0; histograma = []; brillo = 0
+app = tk.Tk(); barraMenu = tk.Menu(app); etiquetaTam = tk.Label()
+flag = 0
+listaImagenes = []; indiceIm = 0
+
 
 def abrirImagen():
-    global nombreImagen
-    global columnas
-    global filas
-    global matrizR
-    global matrizG
-    global matrizB
-    global matrizEscalaGrises
-
+    global flag; global listaImagenes; global indiceIm
+    nombreImagen = ""; filas = 0; columnas = 0
+    matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
+    histograma = []; brillo = 0; contraste = 0; entropia = 0
+    
     ruta = str(os.path.dirname(os.path.abspath(__file__)))
     rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = "Abrir imagen",filetypes = (("Imagenes","*.jpg;*.png"),("All files","*.*"))))
     imagen = Image.open(rutaImagen, 'r')
@@ -31,25 +32,17 @@ def abrirImagen():
             break
 
     nombreImagen = nombreImagen[0:index][::-1]
-    
-    #imagen = Image.open("./benijo.jpg", 'r')
 
     columnas, filas = imagen.size
     datos = list(imagen.getdata())
 
-    Lower_left = tk.Label(app,text =f'{filas} x {columnas} px')
-    Lower_left.place(relx = 0.0, rely = 1.0, anchor ='sw')
+    # Redimensionar matrices RGB y gris
+    matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
 
-    matrizR.actualizar(filas, columnas)
-    matrizG.actualizar(filas, columnas)
-    matrizB.actualizar(filas, columnas)
-    matrizEscalaGrises.actualizar(filas, columnas)
+    # Mostrar imagen + imagen blanco
+    imagen1(nombreImagen); imagen2("blanco.png")
 
-    imagen1(nombreImagen)
-    imagen2("blanco.png")
-
-    cont = 0
-    k = 0
+    cont = 0; k = 0
 
     for i in range(filas):
         if i != filas:
@@ -63,7 +56,46 @@ def abrirImagen():
                 cont += 1
                 k += 1
             cont = 0
+
+    listaImagenes.append([nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, brillo, contraste, entropia])
+    indiceIm = len(listaImagenes) - 1
+    fEtiquetaTam()
+
+    cont = 0; listaAux = []; pixels = []
+
+    for i in range(len(datos)):
+        cont += 1
+        if(cont != columnas):
+            listaAux.append(datos[i])
+        else:
+            pixels.append(listaAux)
+            cont = 0
+            listaAux = []
+
+    array = np.array(pixels, dtype=np.uint8)
+    new_image = Image.fromarray(array)
+    new_image.save('./backupImagenes/'+nombreImagen)
     
+    # Menu de imagenes
+    if (flag == 1):
+        barraMenu.delete(END)
+    
+    flag = 1
+    menuHistorial = tk.Menu(barraMenu)
+    for i in range(len(listaImagenes)):
+        menuHistorial.add_command(label=str(listaImagenes[i][0]), command= partial(reabrirImagen, i))
+    
+    barraMenu.add_cascade(label="Historial", menu=menuHistorial)
+
+
+
+def reabrirImagen(val):
+    # Indice de la imagen con la que se trabaja actualmente
+    global indiceIm; indiceIm = val
+    
+    imagen1("./backupImagenes/"+listaImagenes[indiceIm][0])
+    fEtiquetaTam()
+
 
 def guardar():
     print(filedialog.asksaveasfilename(initialdir = "/",title = "Guardar como",filetypes = (("Python files","*.py;*.pyw"),("All files","*.*"))))
@@ -78,49 +110,56 @@ def fError():
 
 
 def fHistograma():
-    global histograma
 
-    if (matrizEscalaGrises.getFilas() != 0):
-        histograma = calcularHistograma(matrizEscalaGrises, filas, columnas)
-        graficarHistograma(histograma, nombreImagen)
+    if (listaImagenes[indiceIm][3].getFilas() != 0):
+        # MatrizEscalaGrises, filas, columnas
+        listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        graficarHistograma(listaImagenes[indiceIm][7], listaImagenes[indiceIm][0])
     else:
         fError()
 
 
 def fBrillo():
 
-    global histograma
-    global brillo
-
-    if (matrizEscalaGrises.getFilas() != 0):
-        if (len(histograma) == 0):
-            histograma = calcularHistograma(matrizEscalaGrises, filas, columnas)
-        brillo = calcularBrillo(histograma, filas, columnas)
-        messagebox.showinfo(title="Brillo", message=f"El brillo es: {str(brillo)}")
+    if (listaImagenes[indiceIm][3].getFilas() != 0):
+        if (len(listaImagenes[indiceIm][7]) == 0):
+            listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        listaImagenes[indiceIm][8] = calcularBrillo(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        messagebox.showinfo(title="Brillo", message=f"El brillo es: {str(listaImagenes[indiceIm][8])}")
     else:
         fError()
 
 
 def fContraste():
 
-    global histograma
-    global brillo
-    global contraste
-
-    if (matrizEscalaGrises.getFilas() != 0):
-        if (len(histograma) == 0):
-            histograma = calcularHistograma(matrizEscalaGrises, filas, columnas)
-            brillo = calcularBrillo(histograma, filas, columnas)
-        contraste = calcularContraste(histograma, filas, columnas, brillo)
-        messagebox.showinfo(title="Contraste", message=f"El contraste es: {str(contraste)}")
+    if (listaImagenes[indiceIm][3].getFilas() != 0):
+        if (len(listaImagenes[indiceIm][7]) == 0):
+            listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+            listaImagenes[indiceIm][8] = calcularBrillo(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        listaImagenes[indiceIm][9] = calcularContraste(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], listaImagenes[indiceIm][8])
+        messagebox.showinfo(title="Contraste", message=f"El contraste es: {str(listaImagenes[indiceIm][9])}")
     else:
         fError()
 
 
-def imagen1(nombre):
+def fEntropia():
 
-    global histograma
-    global brillo
+    if (listaImagenes[indiceIm][3].getFilas() != 0):
+        listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        listaImagenes[indiceIm][10] = calcularEntropia(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        messagebox.showinfo(title="Entropía", message=f"La entropía es: {str(listaImagenes[indiceIm][10])}")
+    else:
+        fError()
+
+
+def fEtiquetaTam():
+    global etiquetaTam; global listaImagenes; global indiceIm
+    etiquetaTam.destroy()
+    etiquetaTam = tk.Label(app,text =f'{listaImagenes[indiceIm][1]} x {listaImagenes[indiceIm][2]} px')
+    etiquetaTam.place(relx = 0.0, rely = 1.0, anchor ='sw')
+
+
+def imagen1(nombre):
 
     im = ImageTk.PhotoImage(Image.open(nombre).resize((390,265)))
     imagen1 = tk.Label(image=im)
