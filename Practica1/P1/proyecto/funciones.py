@@ -17,7 +17,7 @@ listaImagenes = []; indiceIm = 0
 def abrirImagen():
     global flag; global listaImagenes; global indiceIm
     nombreImagen = ""; filas = 0; columnas = 0
-    matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
+    matrizEscalaGrises = Matriz(0, 0)
     histograma = []; brillo = 0; contraste = 0; entropia = 0
     
     ruta = str(os.path.dirname(os.path.abspath(__file__)))
@@ -36,8 +36,8 @@ def abrirImagen():
     columnas, filas = imagen.size
     datos = list(imagen.getdata())
 
-    # Redimensionar matrices RGB y gris
-    matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
+    # Redimensionar matriz escala grises
+    matrizEscalaGrises.actualizar(filas, columnas)
 
     # Mostrar imagen + imagen blanco
     imagen1(nombreImagen); imagen2("blanco.png")
@@ -47,17 +47,12 @@ def abrirImagen():
     for i in range(filas):
         if i != filas:
             while (cont < columnas):
-                matrizR.setVal(i, cont, int(datos[k][0]))
-                matrizG.setVal(i, cont, int(datos[k][1]))
-                matrizB.setVal(i, cont, int(datos[k][2]))
-
                 # Codificación escala de grises PAL
                 matrizEscalaGrises.setVal(i, cont, (round(0.222 * int(datos[k][0]) + round(0.707 * int(datos[k][1]))) + round(0.071 * int(datos[k][2]))))
-                cont += 1
-                k += 1
+                cont += 1; k += 1
             cont = 0
 
-    listaImagenes.append([nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, brillo, contraste, entropia])
+    listaImagenes.append([nombreImagen, filas, columnas, matrizEscalaGrises, histograma, brillo, contraste, entropia])
     indiceIm = len(listaImagenes) - 1
     fEtiquetaTam()
 
@@ -112,9 +107,9 @@ def fError():
 def fHistograma():
 
     if (listaImagenes[indiceIm][3].getFilas() != 0):
-        if(len(listaImagenes[indiceIm][7]) == 0): # No se ha calculado el histograma
-            listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
-        graficarHistograma(listaImagenes[indiceIm][7], listaImagenes[indiceIm][0])
+        if(len(listaImagenes[indiceIm][4]) == 0): # No se ha calculado el histograma
+            listaImagenes[indiceIm][4] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        graficarHistograma(listaImagenes[indiceIm][4], listaImagenes[indiceIm][0])
     else:
         fError()
 
@@ -122,11 +117,11 @@ def fHistograma():
 def fBrillo():
 
     if (listaImagenes[indiceIm][3].getFilas() != 0):
-        if (listaImagenes[indiceIm][8] == 0):
-            if (len(listaImagenes[indiceIm][7]) == 0):
-                listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
-            listaImagenes[indiceIm][8] = calcularBrillo(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
-        messagebox.showinfo(title="Brillo", message=f"El brillo es: {str(listaImagenes[indiceIm][8])}")
+        if (listaImagenes[indiceIm][5] == 0):
+            if (len(listaImagenes[indiceIm][4]) == 0):
+                listaImagenes[indiceIm][4] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+            listaImagenes[indiceIm][5] = calcularBrillo(listaImagenes[indiceIm][4], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        messagebox.showinfo(title="Brillo", message=f"El brillo es: {str(listaImagenes[indiceIm][5])}")
     else:
         fError()
 
@@ -134,13 +129,13 @@ def fBrillo():
 def fContraste():
 
     if (listaImagenes[indiceIm][3].getFilas() != 0):
-        if (listaImagenes[indiceIm][9] == 0):
-            if (listaImagenes[indiceIm][8] == 0):
-                if (len(listaImagenes[indiceIm][7]) == 0):
-                    listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
-                listaImagenes[indiceIm][8] = calcularBrillo(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
-            listaImagenes[indiceIm][9] = calcularContraste(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], listaImagenes[indiceIm][8])
-        messagebox.showinfo(title="Contraste", message=f"El contraste es: {str(listaImagenes[indiceIm][9])}")
+        if (listaImagenes[indiceIm][6] == 0):
+            if (listaImagenes[indiceIm][5] == 0):
+                if (len(listaImagenes[indiceIm][4]) == 0):
+                    listaImagenes[indiceIm][4] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+                listaImagenes[indiceIm][5] = calcularBrillo(listaImagenes[indiceIm][4], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+            listaImagenes[indiceIm][6] = calcularContraste(listaImagenes[indiceIm][4], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], listaImagenes[indiceIm][5])
+        messagebox.showinfo(title="Contraste", message=f"El contraste es: {str(listaImagenes[indiceIm][6])}")
     else:
         fError()
 
@@ -148,17 +143,17 @@ def fContraste():
 def fEntropia():
 
     if (listaImagenes[indiceIm][3].getFilas() != 0):
-        if (listaImagenes[indiceIm][10] == 0):
-            if (len(listaImagenes[indiceIm][7]) == 0):
-                listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
-            listaImagenes[indiceIm][10] = calcularEntropia(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
-        messagebox.showinfo(title="Entropía", message=f"La entropía es: {str(listaImagenes[indiceIm][10])}")
+        if (listaImagenes[indiceIm][7] == 0):
+            if (len(listaImagenes[indiceIm][4]) == 0):
+                listaImagenes[indiceIm][4] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+            listaImagenes[indiceIm][7] = calcularEntropia(listaImagenes[indiceIm][4], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        messagebox.showinfo(title="Entropía", message=f"La entropía es: {str(listaImagenes[indiceIm][7])}")
     else:
         fError()
 
 
 def fEtiquetaTam():
-    global etiquetaTam; global listaImagenes; global indiceIm
+    global etiquetaTam
     etiquetaTam.destroy()
     etiquetaTam = tk.Label(app,text =f'{listaImagenes[indiceIm][1]} x {listaImagenes[indiceIm][2]} px')
     etiquetaTam.place(relx = 0.0, rely = 1.0, anchor ='sw')
