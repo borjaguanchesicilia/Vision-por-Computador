@@ -22,13 +22,19 @@ def main():
     menuArchivo.add_command(label="Salir", command=salir)
     barraMenu.add_cascade(label="Archivo", menu=menuArchivo)
 
-    # Menu de herramienta
-    menuHerramientas = tk.Menu(barraMenu)
-    menuHerramientas.add_command(label="Histograma", command=fHistograma)
-    menuHerramientas.add_command(label="Brillo", command=fBrillo)
-    menuHerramientas.add_command(label="Contraste", command=fContraste)
-    menuHerramientas.add_command(label="Entropía", command=fEntropia)
-    barraMenu.add_cascade(label="Herramientas", menu=menuHerramientas)
+    # Menu de datos
+    menuDatos = tk.Menu(barraMenu)
+    menuDatos.add_command(label="Histograma", command=fHistograma)
+    menuDatos.add_command(label="Brillo", command=fBrillo)
+    menuDatos.add_command(label="Contraste", command=fContraste)
+    menuDatos.add_command(label="Entropía", command=fEntropia)
+    barraMenu.add_cascade(label="Datos", menu=menuDatos)
+
+
+    # Menu de operaciones
+    menuOperaciones = tk.Menu(barraMenu)
+    menuOperaciones.add_command(label="Negativo", command=fNegativo)
+    barraMenu.add_cascade(label="Operaciones", menu=menuOperaciones)
 
     
     app.config(menu=barraMenu)
