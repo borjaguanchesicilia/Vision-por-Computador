@@ -88,6 +88,24 @@ def graficarHistograma(frecuencias, nombre):
     plt.show()
 
 
+def calcularRango(histograma):
+
+    min = max = 0
+
+    print(histograma)
+
+    for i in range(len(histograma)):
+        if (histograma[i] > 0):
+            min = i
+            break
+
+    for i in range(len(histograma)-1, -1, -1):
+        if (histograma[i] > 0):
+            max = i
+            break
+
+    return (min, max)
+
 def calcularBrillo(histograma, filas, columnas):
     n = filas*columnas
     sum = 0
@@ -160,7 +178,7 @@ def calcularNegativo():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"
     new_image.save(nombre)
 
-    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], 0, 0, 0])
+    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0])
     fMenuHistorial()
     
     return nombre

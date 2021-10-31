@@ -24,6 +24,7 @@ def main():
 
     # Menu de datos
     menuDatos = tk.Menu(barraMenu)
+    menuDatos.add_command(label="Rango valores", command=fRango)
     menuDatos.add_command(label="Histograma", command=fHistograma)
     menuDatos.add_command(label="Brillo", command=fBrillo)
     menuDatos.add_command(label="Contraste", command=fContraste)
