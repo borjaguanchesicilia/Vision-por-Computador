@@ -1,5 +1,6 @@
 from funciones import *
 from PIL import ImageTk
+from tkinter import Label
 
 
 def main():
@@ -35,6 +36,7 @@ def main():
     # Menu de operaciones
     menuOperaciones = tk.Menu(barraMenu)
     menuOperaciones.add_command(label="Negativo", command=fNegativo)
+    menuOperaciones.add_command(label="Transformación lineal", command=fTransformacionLineal)
     barraMenu.add_cascade(label="Operaciones", menu=menuOperaciones)
 
     

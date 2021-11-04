@@ -146,3 +146,11 @@ def fNegativo():
         imagen2(nombre)
     else:
         fError()
+
+
+def fTransformacionLineal():
+
+    if (len(listaImagenes) != 0):
+        transformacionLineal()
+    else:
+        fError()

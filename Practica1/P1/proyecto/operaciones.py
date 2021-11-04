@@ -1,68 +1,14 @@
 import tkinter as tk
-from tkinter import Label, Image, filedialog, messagebox
+from tkinter import Button, Entry, Label, Image, Toplevel, filedialog, messagebox
 import os
 from tkinter.constants import END
 from typing import Tuple
-import numpy as np
-from PIL import Image, ImageTk
 from matplotlib.pyplot import bar, hist
 from functools import partial
 from numpy.core.numeric import indices
 from math import pow, sqrt, log2
 import matplotlib.pyplot as plt
-from matriz import *
-
-
-app = tk.Tk(); barraMenu = tk.Menu(app); etiquetaTam = tk.Label()
-borrar = 0
-listaImagenes = []; indiceIm = 0
-
-
-def fEtiquetaTam():
-    global etiquetaTam
-    etiquetaTam.destroy()
-    etiquetaTam = tk.Label(app,text =f'{listaImagenes[indiceIm][1]} x {listaImagenes[indiceIm][2]} px')
-    etiquetaTam.place(relx = 0.0, rely = 1.0, anchor ='sw')
-
-
-def fMenuHistorial(borrarHistorial=1):
-
-    if (borrarHistorial == 1):
-        barraMenu.delete(END)
-    
-    menuHistorial = tk.Menu(barraMenu)
-    for i in range(len(listaImagenes)):
-        menuHistorial.add_command(label=str(listaImagenes[i][0]), command= partial(reabrirImagen, i))
-    
-    barraMenu.add_cascade(label="Historial", menu=menuHistorial)
-
-
-def imagen1(nombre):
-
-    im = ImageTk.PhotoImage(Image.open(nombre).resize((390,265)))
-    imagen1 = tk.Label(image=im)
-    imagen1.image = im
-    imagen1.place(x=90, y=90)
-
-
-def imagen2(nombre):
-
-    im2 = ImageTk.PhotoImage(Image.open(nombre).resize((390,265)))
-    imagen2 = tk.Label(image=im2)
-    imagen2.image = im2
-    imagen2.place(x=800, y=90)
-
-
-def reabrirImagen(val):
-    # Indice de la imagen con la que se trabaja actualmente
-    global listaImagenes;
- 
-    listaImagenes[0], listaImagenes[val] = listaImagenes[val], listaImagenes[0]
-
-    fMenuHistorial()
-    
-    imagen1("./backupImagenes/"+listaImagenes[indiceIm][0]); imagen2("blanco.png")
-    fEtiquetaTam()
+from funcionesTl import *
 
 
 def calcularHistograma(matriz, filas, columnas):
@@ -105,6 +51,7 @@ def calcularRango(histograma):
             break
 
     return (min, max)
+
 
 def calcularBrillo(histograma, filas, columnas):
     n = filas*columnas
@@ -182,3 +129,19 @@ def calcularNegativo():
     fMenuHistorial()
     
     return nombre
+
+
+def transformacionLineal():
+
+    global bComprobarTramos
+
+    ventanaTl = Toplevel(app)
+    ventanaTl.title("Transformación Lineal")
+    ventanaTl.geometry("500x500")
+
+    etiquetaNumeroTramos = Label(ventanaTl, text ="Introduzca el nº de tramos lineales. (2 <= nº tramos >= 7)")
+    etiquetaNumeroTramos.grid(row=0, column=2)
+
+    tramos = Entry(ventanaTl); tramos.grid(row=1, column=2)
+    bComprobarTramos = Button(ventanaTl, text ="Click para comprobar", command= partial(comprobarNtramos, [ventanaTl, tramos]))
+    bComprobarTramos.grid(row=2, column=2)
