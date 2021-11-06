@@ -47,45 +47,46 @@ def comprobarPuntos(listaDatos):
                         
                         array = np.array(im, dtype=np.uint8)
                         new_image = Image.fromarray(array)
-                        new_image.save(nombre.replace("Copia", "ROI"))
-                        new_image.show()
+                        new_image.save(nombre.replace("Copia", "ROIrojo"))
+                        imagen2(nombre.replace("Copia", "ROIrojo"))
                         remove(nombre)
 
-                        bAceptarRoi = Button(listaDatos[0], text ="Click para aceptar ROI", command= partial(confirmarRoi, puntos))
+                        bAceptarRoi = Button(listaDatos[0], text ="Click para aceptar ROI", command= partial(confirmarRoi, [listaDatos[0], puntos]))
                         bAceptarRoi.grid(row=7, column=0)
 
 
-def confirmarRoi(puntos):
+def confirmarRoi(datos):
 
-    filas = puntos[3][1]-puntos[0][1]; columnas = puntos[3][0]-puntos[0][0]
+    datos[0].destroy()
+
+    filas = datos[1][3][1]-datos[1][0][1]; columnas = datos[1][3][0]-datos[1][0][0]
 
     matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
     matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
 
-    j = puntos[0][0]; listaAux = []; pixels = []
+    j = datos[1][0][0]; listaAux = []; pixels = []
 
-    for i in range(puntos[0][1], puntos[3][1], 1):
-        if i != puntos[3][1]:
-            while (j < puntos[3][0]):
+    for i in range(datos[1][0][1], datos[1][3][1], 1):
+        if i != datos[1][3][1]:
+            while (j < datos[1][3][0]):
                 r = listaImagenes[indiceIm][4].getVal(i, j)
                 g = listaImagenes[indiceIm][5].getVal(i, j)
                 b = listaImagenes[indiceIm][6].getVal(i, j)
                 listaAux.append((r, g, b))
-                matrizR.setVal(i-puntos[0][1], j-puntos[0][0], r)
-                matrizG.setVal(i-puntos[0][1], j-puntos[0][0], g)
-                matrizB.setVal(i-puntos[0][1], j-puntos[0][0], b)
+                matrizR.setVal(i-datos[1][0][1], j-datos[1][0][0], r)
+                matrizG.setVal(i-datos[1][0][1], j-datos[1][0][0], g)
+                matrizB.setVal(i-datos[1][0][1], j-datos[1][0][0], b)
 
                 # Codificación escala de grises PAL
-                matrizEscalaGrises.setVal(i-puntos[0][1], j-puntos[0][0], (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
+                matrizEscalaGrises.setVal(i-datos[1][0][1], j-datos[1][0][0], (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
                 
                 j += 1
             pixels.append(listaAux)
-            j = puntos[0][0]
+            j = datos[1][0][0]
             listaAux = []
 
     array = np.array(pixels, dtype=np.uint8)
     new_image = Image.fromarray(array)
-    remove("./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"ROI.jpg")
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Roi.jpg"
     new_image.save(nombre)
 
