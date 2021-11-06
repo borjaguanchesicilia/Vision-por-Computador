@@ -15,6 +15,7 @@ borrar = 0
 listaImagenes = []; indiceIm = 0
 listaPuntos = []; cont = 0
 nuevosPixels = []
+valorGamma = 0
 
 
 def fMenuHistorial(borrarHistorial=1):

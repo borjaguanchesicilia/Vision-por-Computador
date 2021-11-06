@@ -154,3 +154,11 @@ def fTransformacionLineal():
         transformacionLineal()
     else:
         fError()
+
+
+def fCorreccionGamma():
+
+    if (len(listaImagenes) != 0):
+        calcularCorreccionGamma()
+    else:
+        fError()

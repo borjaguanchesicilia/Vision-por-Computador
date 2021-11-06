@@ -9,6 +9,7 @@ from numpy.core.numeric import indices
 from math import pow, sqrt, log2
 import matplotlib.pyplot as plt
 from funcionesTl import *
+from funcionesGm import *
 
 
 def calcularHistograma(matriz, filas, columnas):
@@ -37,8 +38,6 @@ def graficarHistograma(frecuencias, nombre):
 def calcularRango(histograma):
 
     min = max = 0
-
-    print(histograma)
 
     for i in range(len(histograma)):
         if (histograma[i] > 0):
@@ -145,3 +144,19 @@ def transformacionLineal():
     tramos = Entry(ventanaTl); tramos.grid(row=1, column=2)
     bComprobarTramos = Button(ventanaTl, text ="Click para comprobar", command= partial(comprobarNtramos, [ventanaTl, tramos]))
     bComprobarTramos.grid(row=2, column=2)
+
+
+def calcularCorreccionGamma():
+
+    global indiceIm; global correccionGamma
+
+    ventanaGm = Toplevel(app)
+    ventanaGm.title("Corrección Gamma")
+    ventanaGm.geometry("500x500")
+
+    etiquetaGamma = Label(ventanaGm, text ="Introduzca el valor de gamma. (0.05 <= gammma >= 20)")
+    etiquetaGamma.grid(row=0, column=0)
+    gamma = Entry(ventanaGm); gamma.grid(row=0, column=1)
+
+    bComprobarDatos = Button(ventanaGm, text ="Click para comprobar", command= partial(comprobarDatosGamma, [gamma, ventanaGm]))
+    bComprobarDatos.grid(row=2, column=0)

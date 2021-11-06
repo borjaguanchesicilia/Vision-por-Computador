@@ -37,6 +37,7 @@ def main():
     menuOperaciones = tk.Menu(barraMenu)
     menuOperaciones.add_command(label="Negativo", command=fNegativo)
     menuOperaciones.add_command(label="Transformación lineal", command=fTransformacionLineal)
+    menuOperaciones.add_command(label="Corrección Gamma", command=fCorreccionGamma)
     barraMenu.add_cascade(label="Operaciones", menu=menuOperaciones)
 
     
