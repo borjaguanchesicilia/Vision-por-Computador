@@ -10,6 +10,7 @@ from math import pow, sqrt, log2
 import matplotlib.pyplot as plt
 from funcionesTl import *
 from funcionesGm import *
+from funcionesRoi import *
 
 
 def calcularHistograma(matriz, filas, columnas):
@@ -88,6 +89,40 @@ def calcularEntropia(histograma, filas, columnas):
     entropia = -sum
 
     return entropia
+
+
+def calcularRoi():
+    
+    ventanaRoi = Toplevel(app)
+    ventanaRoi.title("ROI")
+    ventanaRoi.geometry("800x800")
+
+    etiquetaPuntos = Label(ventanaRoi, text ="Introduzca los 4 puntos para definir la Región de Interés"); etiquetaPuntos.grid(row=0, column=0)
+
+    etiquetaX = Label(ventanaRoi, text ="X"); etiquetaX.grid(row=0, column=1)
+
+    etiquetaY = Label(ventanaRoi, text ="Y"); etiquetaY.grid(row=0, column=2)
+
+    etiquetaP1 = Label(ventanaRoi, text ="Introduzca el punto 1:"); etiquetaP1.grid(row=1, column=0)
+    p1X = Entry(ventanaRoi); p1X.grid(row=1, column=1); p1Y = Entry(ventanaRoi); p1Y.grid(row=1, column=2)
+
+    etiquetaP2 = Label(ventanaRoi, text ="Introduzca el punto 2:"); etiquetaP2.grid(row=2, column=0)
+    p2X = Entry(ventanaRoi); p2X.grid(row=2, column=1); p2Y = Entry(ventanaRoi); p2Y.grid(row=2, column=2)
+
+    etiquetaP3 = Label(ventanaRoi, text ="Introduzca el punto 3:"); etiquetaP3.grid(row=3, column=0)
+    p3X = Entry(ventanaRoi); p3X.grid(row=3, column=1); p3Y = Entry(ventanaRoi); p3Y.grid(row=3, column=2)
+
+    etiquetaP4 = Label(ventanaRoi, text ="Introduzca el punto 4:"); etiquetaP4.grid(row=4, column=0)
+    p4X = Entry(ventanaRoi); p4X.grid(row=4, column=1); p4Y = Entry(ventanaRoi); p4Y.grid(row=4, column=2)
+
+    listaPuntos = [(p1X, p1Y), (p2X, p2Y), (p3X, p3Y), (p4X, p4Y)]
+    
+    bComprobarPuntos = Button(ventanaRoi, text ="Click para comprobar", command= partial(comprobarPuntos, [ventanaRoi, listaPuntos]))
+    bComprobarPuntos.grid(row=6, column=0)
+
+    im = ImageTk.PhotoImage(Image.open("ejemploROI.png").resize((390,265)))
+    imagen1 = tk.Label(ventanaRoi, image=im)
+    imagen1.image = im; imagen1.place(x=180, y=180)
 
 
 def calcularNegativo():

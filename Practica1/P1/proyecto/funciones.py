@@ -139,6 +139,14 @@ def fEntropia():  # Indice 11
         fError()
 
 
+def fRoi():
+
+    if (len(listaImagenes) != 0):
+        calcularRoi()
+    else:
+        fError()
+
+
 def fNegativo():
 
     if (len(listaImagenes) != 0):
