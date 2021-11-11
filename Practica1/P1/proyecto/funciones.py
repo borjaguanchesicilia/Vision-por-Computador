@@ -5,7 +5,7 @@ def abrirImagen():
     global borrar; global listaImagenes; global indiceIm
     nombreImagen = ""; filas = 0; columnas = 0
     matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
-    histograma = []; rango = (); brillo = 0; contraste = 0; entropia = 0
+    histograma = []; rango = (); brillo = 0; contraste = 0; entropia = 0; histogramaAcumulado = []
     
     ruta = str(os.path.dirname(os.path.abspath(__file__)))
     rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = "Abrir imagen",filetypes = (("Imagenes","*.jpg;*.png"),("All files","*.*"))))
@@ -43,7 +43,7 @@ def abrirImagen():
                 cont += 1; k += 1
             cont = 0
 
-    listaImagenes.insert(0, [nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia])
+    listaImagenes.insert(0, [nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado])
     indiceIm = 0
     fEtiquetaTam()
 
@@ -84,7 +84,19 @@ def fHistograma():  # Indice 7
     if (len(listaImagenes) != 0):
         if(len(listaImagenes[indiceIm][7]) == 0): # No se ha calculado el histograma
             listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
-        graficarHistograma(listaImagenes[indiceIm][7], listaImagenes[indiceIm][0])
+        graficarHistograma(listaImagenes[indiceIm][7], "Histograma de la imagen "+listaImagenes[indiceIm][0])
+    else:
+        fError()
+
+
+def fHistogramaAcumulado():  # Indice 12
+
+    if (len(listaImagenes) != 0):
+        if(len(listaImagenes[indiceIm][7]) == 0): # No se ha calculado el histograma
+            listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        if(len(listaImagenes[indiceIm][12]) == 0): # No se ha calculado el histograma acumulado
+            listaImagenes[indiceIm][12] = calcularHistogramaAcumulado(listaImagenes[indiceIm][7])
+        graficarHistograma(listaImagenes[indiceIm][12], "Histograma acumulado de la imagen "+listaImagenes[indiceIm][0])
     else:
         fError()
 
@@ -170,3 +182,10 @@ def fCorreccionGamma():
         calcularCorreccionGamma()
     else:
         fError()
+
+
+def fDiferencia():
+
+    print(
+        "gfgfgf"
+    )

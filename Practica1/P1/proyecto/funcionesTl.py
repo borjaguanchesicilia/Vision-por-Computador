@@ -63,7 +63,7 @@ def generarImagenTL():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"TransformacionLineal.jpg"
     new_image.save(nombre)
     imagen2(nombre)
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"TransformacionLineal.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0])
+    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"TransformacionLineal.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
     fMenuHistorial()
 
 

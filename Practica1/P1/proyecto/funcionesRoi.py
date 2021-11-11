@@ -90,6 +90,6 @@ def confirmarRoi(datos):
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Roi.jpg"
     new_image.save(nombre)
 
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"Roi.jpg"), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0])
+    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"Roi.jpg"), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
                         
     fMenuHistorial()
