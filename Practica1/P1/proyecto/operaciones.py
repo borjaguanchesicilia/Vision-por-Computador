@@ -94,7 +94,7 @@ def calcularEntropia(histograma, filas, columnas):
 
     for i in range(len(histograma)):
         probI = histograma[i] / n
-        if (probI != 0.0):
+        if (probI != 0.0): # Para evitar las probabilidades que no hay color
             sum += probI * log2(probI)
     
     entropia = -sum

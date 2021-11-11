@@ -1,3 +1,4 @@
+import numpy
 from operaciones import *
 
 
@@ -29,22 +30,35 @@ def abrirImagen():
     # Mostrar imagen + imagen blanco
     imagen1(nombreImagen); imagen2("blanco.png")
 
+    imarray = numpy.array(imagen)
     cont = 0; k = 0
 
-    for i in range(filas):
-        if i != filas:
-            while (cont < columnas):
-                matrizR.setVal(i, cont, int(datos[k][0]))
-                matrizG.setVal(i, cont, int(datos[k][1]))
-                matrizB.setVal(i, cont, int(datos[k][2]))
+    if(len(imarray.shape)<3):
 
-                # Codificación escala de grises PAL
-                matrizEscalaGrises.setVal(i, cont, (round(0.222 * int(datos[k][0]) + round(0.707 * int(datos[k][1]))) + round(0.071 * int(datos[k][2]))))
-                cont += 1; k += 1
-            cont = 0
+        for i in range(filas):
+            if i != filas:
+                while (cont < columnas):
+                    matrizEscalaGrises.setVal(i, cont, datos[k])
+                    cont += 1; k += 1
+                cont = 0
+
+    elif len(imarray.shape)==3:
+
+        for i in range(filas):
+            if i != filas:
+                while (cont < columnas):
+                    matrizR.setVal(i, cont, int(datos[k][0]))
+                    matrizG.setVal(i, cont, int(datos[k][1]))
+                    matrizB.setVal(i, cont, int(datos[k][2]))
+
+                    # Codificación escala de grises PAL
+                    matrizEscalaGrises.setVal(i, cont, (round(0.222 * int(datos[k][0]) + round(0.707 * int(datos[k][1]))) + round(0.071 * int(datos[k][2]))))
+                    cont += 1; k += 1
+                cont = 0
 
     listaImagenes.insert(0, [nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado])
     indiceIm = 0
+    
     fEtiquetaTam()
 
     cont = 0; listaAux = []; pixels = []
