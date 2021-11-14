@@ -40,6 +40,7 @@ def main():
     menuOperaciones.add_command(label="Negativo", command=fNegativo)
     menuOperaciones.add_command(label="Transformación lineal", command=fTransformacionLineal)
     menuOperaciones.add_command(label="Corrección Gamma", command=fCorreccionGamma)
+    menuOperaciones.add_command(label="Especificación del histograma", command=fEspecificacionHistograma)
     barraMenu.add_cascade(label="Operaciones", menu=menuOperaciones)
 
     

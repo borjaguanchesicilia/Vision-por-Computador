@@ -5,6 +5,7 @@ from tkinter.constants import END
 from typing import Tuple
 from matplotlib.pyplot import bar, hist
 from functools import partial
+import numpy
 from numpy.core.numeric import indices
 from math import pow, sqrt, log2
 import matplotlib.pyplot as plt
@@ -40,7 +41,7 @@ def calcularHistogramaAcumulado(histograma):
 
     vectorHistogramaAcumulado = []; aux = 0
 
-    for i in range(256):
+    for i in range(len(histograma)):
         vectorHistogramaAcumulado.append(histograma[i] + aux)
         aux += histograma[i]
 
@@ -170,8 +171,10 @@ def calcularNegativo():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"
     new_image.save(nombre)
 
-    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0])
+    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
     fMenuHistorial()
+
+    imagen2(nombre)
     
     return nombre
 
@@ -206,3 +209,143 @@ def calcularCorreccionGamma():
 
     bComprobarDatos = Button(ventanaGm, text ="Click para comprobar", command= partial(comprobarDatosGamma, [gamma, ventanaGm]))
     bComprobarDatos.grid(row=2, column=0)
+
+
+def calcularHistogramaAcumuladoNormalizado(histogramaAcumulado, filas, columnas):
+
+    histogramaAcumuladoNormalizado = []
+    n = filas*columnas
+
+    for i in range(len(histogramaAcumulado)):
+        histogramaAcumuladoNormalizado.append(histogramaAcumulado[i]/n)
+
+    return histogramaAcumuladoNormalizado
+
+
+def calcularEspecificacion():
+
+    global borrar; global listaImagenes; global indiceIm
+    nombreImagen = ""; filas = 0; columnas = 0
+    matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
+
+    ruta = str(os.path.dirname(os.path.abspath(__file__)))
+    rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = "Abrir imagen",filetypes = (("Imagenes","*.jpg;*.png"),("All files","*.*"))))
+    imagen = Image.open(rutaImagen, 'r')
+    
+    nombreImagen = rutaImagen[::-1]
+    index = 0	
+    for i in range(len(nombreImagen)):
+        if (nombreImagen[i] == "/"):
+            index = i
+            break
+
+    nombreImagen = nombreImagen[0:index][::-1]
+
+    columnas, filas = imagen.size
+    datos = list(imagen.getdata())
+
+    # Redimensionar matrices RGB y gris
+    matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
+
+    # Mostrar imagen
+    imagen2(nombreImagen)
+
+    imarray = numpy.array(imagen)
+    cont = 0; k = 0
+
+    if(len(imarray.shape)<3):
+
+        for i in range(filas):
+            if i != filas:
+                while (cont < columnas):
+                    matrizEscalaGrises.setVal(i, cont, datos[k])
+                    cont += 1; k += 1
+                cont = 0
+    elif len(imarray.shape)==3:
+
+        for i in range(filas):
+            if i != filas:
+                while (cont < columnas):
+                    matrizR.setVal(i, cont, int(datos[k][0]))
+                    matrizG.setVal(i, cont, int(datos[k][1]))
+                    matrizB.setVal(i, cont, int(datos[k][2]))
+
+                    # Codificación escala de grises PAL
+                    matrizEscalaGrises.setVal(i, cont, (round(0.222 * int(datos[k][0]) + round(0.707 * int(datos[k][1]))) + round(0.071 * int(datos[k][2]))))
+                    cont += 1; k += 1
+                cont = 0
+
+    cont = 0; listaAux = []; pixels = []
+
+    for i in range(len(datos)):
+        cont += 1
+        if(cont != columnas):
+            listaAux.append(datos[i])
+        else:
+            pixels.append(listaAux)
+            cont = 0
+            listaAux = []
+
+    array = np.array(pixels, dtype=np.uint8)
+    new_image = Image.fromarray(array)
+    new_image.save('./backupImagenes/'+nombreImagen)
+
+
+    # Calcular histograma, histograma acumulado e histograma acumulado normalizado de la imagen referencia
+    histograma = calcularHistograma(matrizEscalaGrises, filas, columnas)
+    histogramaAcumulado = calcularHistogramaAcumulado(histograma)
+    pR = calcularHistogramaAcumuladoNormalizado(histogramaAcumulado, filas, columnas) # Histograma acumulado normalizado imagen referencia
+    
+
+    T = []
+    if (len(listaImagenes[indiceIm][12]) != 0):
+        pO = calcularHistogramaAcumuladoNormalizado(listaImagenes[indiceIm][12], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]) # Histograma acumulado normalizado imagen original
+    else:
+        if(len(listaImagenes[indiceIm][7]) == 0): # No se ha calculado el histograma
+            listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        if(len(listaImagenes[indiceIm][12]) == 0): # No se ha calculado el histograma acumulado
+            listaImagenes[indiceIm][12] = calcularHistogramaAcumulado(listaImagenes[indiceIm][7])
+        pO = calcularHistogramaAcumuladoNormalizado(listaImagenes[indiceIm][12], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]) # Histograma acumulado normalizado imagen original
+
+
+    for i in range(256):
+        j = 255
+        while((j>= 0) and (pO[i] <= pR[j])):
+            if (len(T) != 0 and len(T) > i):
+                T.pop(i)
+            T.insert(i, j)
+            j -= 1
+
+    matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
+    matrizR.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizG.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizB.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizEscalaGrises.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+
+    cont = 0; listaAux = []; pixels = []
+
+    for i in range(listaImagenes[indiceIm][1]):
+        if i != listaImagenes[indiceIm][1]:
+            while (cont < listaImagenes[indiceIm][2]):
+                r = T[listaImagenes[indiceIm][4].getVal(i, cont)]
+                g = T[listaImagenes[indiceIm][5].getVal(i, cont)]
+                b = T[listaImagenes[indiceIm][6].getVal(i, cont)]
+                listaAux.append((r, g, b))
+                matrizR.setVal(i, cont, r)
+                matrizG.setVal(i, cont, g)
+                matrizB.setVal(i, cont, b)
+
+                # Codificación escala de grises PAL
+                matrizEscalaGrises.setVal(i, cont, (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
+                
+                cont += 1
+            pixels.append(listaAux)
+            cont = 0
+            listaAux = []
+
+    array = np.array(pixels, dtype=np.uint8)
+    new_image = Image.fromarray(array)
+    nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"
+    new_image.save(nombre)
+
+    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
+    fMenuHistorial()
+    
+    imagen2(nombre)

@@ -198,8 +198,9 @@ def fCorreccionGamma():
         fError()
 
 
-def fDiferencia():
+def fEspecificacionHistograma():
 
-    print(
-        "gfgfgf"
-    )
+    if (len(listaImagenes) != 0):
+        calcularEspecificacion()
+    else:
+        fError()
