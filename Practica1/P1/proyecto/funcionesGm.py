@@ -47,15 +47,22 @@ def correccionGamma():
                 bB = pow(aB, valorGamma)
                 b =  round(bB * 255)
                 
-                
-                listaAux.append((r, g, b))
                 matrizR.setVal(i, j, r)
                 matrizG.setVal(i, j, g)
                 matrizB.setVal(i, j, b)
 
-                # Codificación escala de grises PAL
-                matrizEscalaGrises.setVal(i, j, (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
-                
+                if (listaImagenes[indiceIm][13] == 0):
+                    aG = listaImagenes[indiceIm][3].getVal(i, j) / 255
+                    bG = pow(aG, valorGamma)
+                    gris =  round(bG * 255)
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append(gris)
+                else:
+                    # Codificación escala de grises PAL
+                    gris = (round(0.222 * r) + round(0.707 * g) + round(0.071 * b))
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append((r, g, b))
+
                 j += 1
             pixels.append(listaAux)
             j = 0
@@ -67,5 +74,5 @@ def correccionGamma():
     new_image.save(nombre)
     imagen2(nombre)
 
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"CorreccionGamma.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
+    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"CorreccionGamma.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()

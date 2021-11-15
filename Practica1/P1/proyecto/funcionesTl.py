@@ -45,14 +45,21 @@ def generarImagenTL():
                 r = nuevosPixels[listaImagenes[indiceIm][4].getVal(i, cont)]
                 g = nuevosPixels[listaImagenes[indiceIm][5].getVal(i, cont)]
                 b = nuevosPixels[listaImagenes[indiceIm][6].getVal(i, cont)]
-                listaAux.append((r, g, b))
+
                 matrizR.setVal(i, cont, r)
                 matrizG.setVal(i, cont, g)
                 matrizB.setVal(i, cont, b)
 
-                # Codificación escala de grises PAL
-                matrizEscalaGrises.setVal(i, cont, (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
-                
+                if (listaImagenes[indiceIm][13] == 0):
+                    gris = nuevosPixels[listaImagenes[indiceIm][3].getVal(i, cont)]
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append(gris)
+                else:
+                    # Codificación escala de grises PAL
+                    gris = (round(0.222 * r) + round(0.707 * g) + round(0.071 * b))
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append((r, g, b))
+
                 cont += 1
             pixels.append(listaAux)
             cont = 0
@@ -63,7 +70,7 @@ def generarImagenTL():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"TransformacionLineal.jpg"
     new_image.save(nombre)
     imagen2(nombre)
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"TransformacionLineal.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
+    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"TransformacionLineal.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
 
 

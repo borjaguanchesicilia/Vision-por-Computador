@@ -1,6 +1,6 @@
 from funciones import *
 from PIL import ImageTk
-from tkinter import Label
+from tkinter import Label, PhotoImage
 
 
 def main():

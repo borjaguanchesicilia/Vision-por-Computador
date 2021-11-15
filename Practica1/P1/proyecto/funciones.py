@@ -34,7 +34,7 @@ def abrirImagen():
     cont = 0; k = 0
 
     if(len(imarray.shape)<3):
-
+        color = 0
         for i in range(filas):
             if i != filas:
                 while (cont < columnas):
@@ -43,7 +43,7 @@ def abrirImagen():
                 cont = 0
 
     elif len(imarray.shape)==3:
-
+        color = 1
         for i in range(filas):
             if i != filas:
                 while (cont < columnas):
@@ -56,7 +56,7 @@ def abrirImagen():
                     cont += 1; k += 1
                 cont = 0
 
-    listaImagenes.insert(0, [nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado])
+    listaImagenes.insert(0, [nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado, color])
     indiceIm = 0
     
     fEtiquetaTam()

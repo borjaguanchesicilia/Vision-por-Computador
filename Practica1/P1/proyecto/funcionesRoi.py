@@ -72,15 +72,23 @@ def confirmarRoi(datos):
                 r = listaImagenes[indiceIm][4].getVal(i, j)
                 g = listaImagenes[indiceIm][5].getVal(i, j)
                 b = listaImagenes[indiceIm][6].getVal(i, j)
-                listaAux.append((r, g, b))
+
                 matrizR.setVal(i-datos[1][0][1], j-datos[1][0][0], r)
                 matrizG.setVal(i-datos[1][0][1], j-datos[1][0][0], g)
                 matrizB.setVal(i-datos[1][0][1], j-datos[1][0][0], b)
 
-                # Codificación escala de grises PAL
-                matrizEscalaGrises.setVal(i-datos[1][0][1], j-datos[1][0][0], (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
-                
+                if (listaImagenes[indiceIm][13] == 0):
+                    gris = listaImagenes[indiceIm][3].getVal(i, cont)
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append(gris)
+                else:
+                    # Codificación escala de grises PAL
+                    gris = (round(0.222 * r) + round(0.707 * g) + round(0.071 * b))
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append((r, g, b))
+
                 j += 1
+
             pixels.append(listaAux)
             j = datos[1][0][0]
             listaAux = []
@@ -90,7 +98,7 @@ def confirmarRoi(datos):
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Roi.jpg"
     new_image.save(nombre)
 
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"Roi.jpg"), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
+    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"Roi.jpg"), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
                         
     fMenuHistorial()
 

@@ -146,6 +146,7 @@ def calcularNegativo():
     matrizR.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizG.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizB.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizEscalaGrises.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
 
     cont = 0; listaAux = []; pixels = []
+    print(listaImagenes[indiceIm][13])
 
     for i in range(listaImagenes[indiceIm][1]):
         if i != listaImagenes[indiceIm][1]:
@@ -153,13 +154,20 @@ def calcularNegativo():
                 r = negativo[listaImagenes[indiceIm][4].getVal(i, cont)]
                 g = negativo[listaImagenes[indiceIm][5].getVal(i, cont)]
                 b = negativo[listaImagenes[indiceIm][6].getVal(i, cont)]
-                listaAux.append((r, g, b))
+                
                 matrizR.setVal(i, cont, r)
                 matrizG.setVal(i, cont, g)
                 matrizB.setVal(i, cont, b)
 
-                # Codificación escala de grises PAL
-                matrizEscalaGrises.setVal(i, cont, (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
+                if (listaImagenes[indiceIm][13] == 0):
+                    gris = negativo[listaImagenes[indiceIm][3].getVal(i, cont)]
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append(gris)
+                else:
+                    # Codificación escala de grises PAL
+                    gris = (round(0.222 * r) + round(0.707 * g) + round(0.071 * b))
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append((r, g, b))
                 
                 cont += 1
             pixels.append(listaAux)
@@ -171,7 +179,7 @@ def calcularNegativo():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"
     new_image.save(nombre)
 
-    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
+    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
 
     imagen2(nombre)
@@ -327,14 +335,21 @@ def calcularEspecificacion():
                 r = T[listaImagenes[indiceIm][4].getVal(i, cont)]
                 g = T[listaImagenes[indiceIm][5].getVal(i, cont)]
                 b = T[listaImagenes[indiceIm][6].getVal(i, cont)]
-                listaAux.append((r, g, b))
+                
                 matrizR.setVal(i, cont, r)
                 matrizG.setVal(i, cont, g)
                 matrizB.setVal(i, cont, b)
 
-                # Codificación escala de grises PAL
-                matrizEscalaGrises.setVal(i, cont, (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
-                
+                if (listaImagenes[indiceIm][13] == 0):
+                    gris = T[listaImagenes[indiceIm][3].getVal(i, cont)]
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append(gris)
+                else:
+                    # Codificación escala de grises PAL
+                    gris = (round(0.222 * r) + round(0.707 * g) + round(0.071 * b))
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append((r, g, b))
+
                 cont += 1
             pixels.append(listaAux)
             cont = 0
@@ -345,7 +360,7 @@ def calcularEspecificacion():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"
     new_image.save(nombre)
 
-    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
+    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
     
     imagen2(nombre)
@@ -380,14 +395,21 @@ def calcularEcualizacion():
                 r = T[listaImagenes[indiceIm][4].getVal(i, cont)]
                 g = T[listaImagenes[indiceIm][5].getVal(i, cont)]
                 b = T[listaImagenes[indiceIm][6].getVal(i, cont)]
-                listaAux.append((r, g, b))
+                
                 matrizR.setVal(i, cont, r)
                 matrizG.setVal(i, cont, g)
                 matrizB.setVal(i, cont, b)
 
-                # Codificación escala de grises PAL
-                matrizEscalaGrises.setVal(i, cont, (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
-                
+                if (listaImagenes[indiceIm][13] == 0):
+                    gris = T[listaImagenes[indiceIm][3].getVal(i, cont)]
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append(gris)
+                else:
+                    # Codificación escala de grises PAL
+                    gris = (round(0.222 * r) + round(0.707 * g) + round(0.071 * b))
+                    matrizEscalaGrises.setVal(i, cont, gris)
+                    listaAux.append((r, g, b))
+
                 cont += 1
             pixels.append(listaAux)
             cont = 0
@@ -398,7 +420,7 @@ def calcularEcualizacion():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"
     new_image.save(nombre)
 
-    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
+    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
     
     imagen2(nombre)
