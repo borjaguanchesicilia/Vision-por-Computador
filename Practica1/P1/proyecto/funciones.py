@@ -204,3 +204,11 @@ def fEspecificacionHistograma():
         calcularEspecificacion()
     else:
         fError()
+
+
+def fInfoPixel():
+
+    if (len(listaImagenes) != 0):
+        infoPixel()
+    else:
+        fError()

@@ -349,3 +349,26 @@ def calcularEspecificacion():
     fMenuHistorial()
     
     imagen2(nombre)
+
+
+def infoPixel():
+
+    global indiceIm; global correccionGamma
+
+    ventanaIp = Toplevel(app)
+    ventanaIp.title("Información pixel")
+    ventanaIp.geometry("500x500")
+
+    etiquetaRangoX = Label(ventanaIp, text =f"[0, {listaImagenes[indiceIm][1]-1}]")
+    etiquetaRangoX.grid(row=0, column=1)
+    etiquetaRangoY = Label(ventanaIp, text =f"[0, {listaImagenes[indiceIm][2]-1}]")
+    etiquetaRangoY.grid(row=0, column=2)
+    etiquetaInfoPixel = Label(ventanaIp, text ="Introduzca el pixel (X, Y)")
+    etiquetaInfoPixel.grid(row=1, column=0)
+    pixelX = Entry(ventanaIp); pixelX.grid(row=1, column=1)
+    pixelY = Entry(ventanaIp); pixelY.grid(row=1, column=2)
+
+    pixel = [pixelX, pixelY]
+
+    bComprobarPixel = Button(ventanaIp, text ="Click para comprobar", command= partial(comprobarPixel, [pixel, ventanaIp]))
+    bComprobarPixel.grid(row=3, column=0)

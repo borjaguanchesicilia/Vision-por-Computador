@@ -93,3 +93,23 @@ def confirmarRoi(datos):
     listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"Roi.jpg"), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
                         
     fMenuHistorial()
+
+
+def comprobarPixel(listaDatos):
+
+    pixelX = listaDatos[0][0].get(); pixelY = listaDatos[0][1].get()
+
+    if ((pixelX.isdigit() == False) or (pixelY.isdigit() == False)):
+        messagebox.showerror("ERROR", f"Debe de introducir un número entero: (0 <= X >= {listaImagenes[indiceIm][1]},  0 <= Y >= {listaImagenes[indiceIm][2]})")
+    else:
+        if(int(pixelX) < 0 or int(pixelY) < 0):
+            messagebox.showerror("ERROR", "Debe de introducir un pixel con coordenadas <= 0")
+        else: 
+            if(int(pixelX) > listaImagenes[indiceIm][1]):
+                messagebox.showerror("ERROR", f"Debe de introducir una coordena X para el pixel: (X <= {listaImagenes[indiceIm][1]}")
+            else:          
+                if(int(pixelY) > listaImagenes[indiceIm][2]):
+                    messagebox.showerror("ERROR", f"Debe de introducir una coordena Y para el pixel: (Y <= {listaImagenes[indiceIm][2]}")
+                else:
+                    etiquetaInfoPixel = Label(listaDatos[1], text =f"(R: {listaImagenes[indiceIm][4].getVal(int(pixelX), int(pixelY))} G: {listaImagenes[indiceIm][5].getVal(int(pixelX), int(pixelY))} B: {listaImagenes[indiceIm][6].getVal(int(pixelX), int(pixelY))})")
+                    etiquetaInfoPixel.grid(row=2, column=0)
