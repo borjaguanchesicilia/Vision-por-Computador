@@ -351,6 +351,59 @@ def calcularEspecificacion():
     imagen2(nombre)
 
 
+def calcularEcualizacion():
+
+    k = (listaImagenes[indiceIm][1] * listaImagenes[indiceIm][2]) / 256
+
+    if(len(listaImagenes[indiceIm][7]) == 0): # No se ha calculado el histograma
+        listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+    if(len(listaImagenes[indiceIm][12]) == 0): # No se ha calculado el histograma acumulado
+        listaImagenes[indiceIm][12] = calcularHistogramaAcumulado(listaImagenes[indiceIm][7])
+    
+    T = []
+
+    for i  in range(256):
+        val = round((listaImagenes[indiceIm][12][i] / k) - 1)
+        if (val < 0):
+            T.append(0)
+        else:
+            T.append(val)
+
+    matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
+    matrizR.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizG.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizB.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizEscalaGrises.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+
+    cont = 0; listaAux = []; pixels = []
+
+    for i in range(listaImagenes[indiceIm][1]):
+        if i != listaImagenes[indiceIm][1]:
+            while (cont < listaImagenes[indiceIm][2]):
+                r = T[listaImagenes[indiceIm][4].getVal(i, cont)]
+                g = T[listaImagenes[indiceIm][5].getVal(i, cont)]
+                b = T[listaImagenes[indiceIm][6].getVal(i, cont)]
+                listaAux.append((r, g, b))
+                matrizR.setVal(i, cont, r)
+                matrizG.setVal(i, cont, g)
+                matrizB.setVal(i, cont, b)
+
+                # Codificación escala de grises PAL
+                matrizEscalaGrises.setVal(i, cont, (round(0.222 * r) + round(0.707 * g) + round(0.071 * b)))
+                
+                cont += 1
+            pixels.append(listaAux)
+            cont = 0
+            listaAux = []
+
+    array = np.array(pixels, dtype=np.uint8)
+    new_image = Image.fromarray(array)
+    nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"
+    new_image.save(nombre)
+
+    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, []])
+    fMenuHistorial()
+    
+    imagen2(nombre)
+
+
 def infoPixel():
 
     global indiceIm; global correccionGamma

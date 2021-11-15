@@ -206,6 +206,14 @@ def fEspecificacionHistograma():
         fError()
 
 
+def fEcualizacionHistograma():
+
+    if (len(listaImagenes) != 0):
+        calcularEcualizacion()
+    else:
+        fError()
+
+
 def fInfoPixel():
 
     if (len(listaImagenes) != 0):

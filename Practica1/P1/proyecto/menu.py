@@ -11,7 +11,7 @@ def main():
     app.geometry('1200x500')
     app['bg']='#FFFFFF'
     app.title("beta FOTOSHOP")
-    label = Label(text="F O T O S H O P")
+    label = Label(text="V I S I Ó N   P O R   C O M P U T A D O R")
     label.pack()
     label.config(fg="black", bg="#FFFFFF", font=("Helvetica 30 bold"))
 
@@ -42,6 +42,7 @@ def main():
     menuOperaciones.add_command(label="Transformación lineal", command=fTransformacionLineal)
     menuOperaciones.add_command(label="Corrección Gamma", command=fCorreccionGamma)
     menuOperaciones.add_command(label="Especificación del histograma", command=fEspecificacionHistograma)
+    menuOperaciones.add_command(label="Ecualización del histograma", command=fEcualizacionHistograma)
     barraMenu.add_cascade(label="Operaciones", menu=menuOperaciones)
 
     
