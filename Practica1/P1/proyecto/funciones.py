@@ -3,6 +3,7 @@ from operaciones import *
 
 
 def abrirImagen():
+
     global borrar; global listaImagenes; global indiceIm
     nombreImagen = ""; filas = 0; columnas = 0
     matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
@@ -178,6 +179,14 @@ def fNegativo():
     if (len(listaImagenes) != 0):
         nombre = calcularNegativo()
         imagen2(nombre)
+    else:
+        fError()
+
+
+def fAjusteLineal():
+
+    if (len(listaImagenes) != 0):
+        calcularAjusteLineal()
     else:
         fError()
 

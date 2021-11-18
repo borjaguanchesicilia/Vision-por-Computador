@@ -9,6 +9,7 @@ import numpy
 from numpy.core.numeric import indices
 from math import pow, sqrt, log2
 import matplotlib.pyplot as plt
+from funcionesAl import *
 from funcionesTl import *
 from funcionesGm import *
 from funcionesRoi import *
@@ -179,12 +180,42 @@ def calcularNegativo():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"
     new_image.save(nombre)
 
-    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
+    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
 
     imagen2(nombre)
     
     return nombre
+
+
+def valorSlider(event):
+    print(event.get())
+
+
+def calcularAjusteLineal():
+
+    ventanaAl = Toplevel(app)
+    ventanaAl.title("Ajuste Lineal")
+    ventanaAl.geometry("500x500")
+
+    if (len(listaImagenes[indiceIm][7]) == 0):
+        listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        listaImagenes[indiceIm][9] = calcularBrillo(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        listaImagenes[indiceIm][10] = calcularContraste(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], listaImagenes[indiceIm][9])
+
+    etiquetaBrillo = Label(ventanaAl, text ="Ajuste lineal del brillo"); etiquetaBrillo.grid(row=0, column=2)
+    sliderBrillo = tk.Scale(ventanaAl, bg="#8D8D8D", from_=0, to=255, orient='horizontal')
+    sliderBrillo.set(listaImagenes[indiceIm][9]); sliderBrillo.grid(row=2, column=2, padx=10, pady=10)
+    
+    etiquetaContraste = Label(ventanaAl, text ="Ajuste lineal del contraste"); etiquetaContraste.grid(row=0, column=4)
+    sliderContraste = tk.Scale(ventanaAl, bg="#8D8D8D", from_=0, to=255, orient='horizontal')
+    sliderContraste.set(listaImagenes[indiceIm][10]); sliderContraste.grid(row=2, column=4, padx=10, pady=10)
+
+    bPrevisualizar = Button(ventanaAl, text ="Click para previsualizar", command= partial(previsualizarAjusteLineal, [sliderBrillo, sliderContraste]))
+    bPrevisualizar.grid(row=5, column=3, padx=10, pady=10)
+
+    bAplicar = Button(ventanaAl, text ="Click para aplicar", command= partial(aplicarAjusteLineal, ventanaAl))
+    bAplicar.grid(row=6, column=3, padx=10, pady=10)
 
 
 def transformacionLineal():
@@ -360,7 +391,7 @@ def calcularEspecificacion():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"
     new_image.save(nombre)
 
-    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
+    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
     
     imagen2(nombre)
@@ -420,7 +451,7 @@ def calcularEcualizacion():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"
     new_image.save(nombre)
 
-    listaImagenes.insert(0, [str(listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
+    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
     
     imagen2(nombre)
