@@ -60,7 +60,7 @@ def previsualizarAjusteLineal(datos):
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"AjusteLineal.jpg"
     new_image.save(nombre)
 
-    imagen2(nombre)
+    pintarCuadro2(nombre)
 
 
 def aplicarAjusteLineal(ventana):
@@ -88,7 +88,7 @@ def aplicarAjusteLineal(ventana):
     matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
 
     # Mostrar imagen
-    imagen2(rutaImagen)
+    pintarCuadro2(rutaImagen)
 
     imarray = numpy.array(imagen)
     cont = 0; k = 0
@@ -116,7 +116,7 @@ def aplicarAjusteLineal(ventana):
                     cont += 1; k += 1
                 cont = 0
 
-    listaImagenes.append([nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado, color])
+    listaImagenes.insert(0,[nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado, color])
 
     cont = 0; listaAux = []; pixels = []
 

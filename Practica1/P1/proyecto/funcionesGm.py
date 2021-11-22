@@ -72,7 +72,7 @@ def correccionGamma():
     new_image = Image.fromarray(array)
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"CorreccionGamma.jpg"
     new_image.save(nombre)
-    imagen2(nombre)
+    pintarCuadro2(nombre)
 
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"CorreccionGamma.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
+    listaImagenes.insert(0,[str(listaImagenes[indiceIm][0][:-4]+"CorreccionGamma.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()

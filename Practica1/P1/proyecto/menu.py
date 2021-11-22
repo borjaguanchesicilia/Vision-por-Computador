@@ -44,6 +44,8 @@ def main():
     menuOperaciones.add_command(label="Corrección Gamma", command=fCorreccionGamma)
     menuOperaciones.add_command(label="Especificación del histograma", command=fEspecificacionHistograma)
     menuOperaciones.add_command(label="Ecualización del histograma", command=fEcualizacionHistograma)
+    menuOperaciones.add_command(label="Diferencia", command=fDiferencia)
+    menuOperaciones.add_command(label="Mapa de cambio", command=fMapaCambio)
     barraMenu.add_cascade(label="Operaciones", menu=menuOperaciones)
 
     

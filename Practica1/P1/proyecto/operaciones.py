@@ -180,10 +180,10 @@ def calcularNegativo():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"
     new_image.save(nombre)
 
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
+    listaImagenes.insert(0,[str(listaImagenes[indiceIm][0][:-4]+"Negativo.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
 
-    imagen2(nombre)
+    pintarCuadro2(nombre)
     
     return nombre
 
@@ -287,7 +287,7 @@ def calcularEspecificacion():
     matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
 
     # Mostrar imagen
-    imagen2(nombreImagen)
+    pintarCuadro2(nombreImagen)
 
     imarray = numpy.array(imagen)
     cont = 0; k = 0
@@ -391,10 +391,10 @@ def calcularEspecificacion():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"
     new_image.save(nombre)
 
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
+    listaImagenes.insert(0,[str(listaImagenes[indiceIm][0][:-4]+"EspecificacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
     
-    imagen2(nombre)
+    pintarCuadro2(nombre)
 
 
 def calcularEcualizacion():
@@ -451,10 +451,10 @@ def calcularEcualizacion():
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"
     new_image.save(nombre)
 
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
+    listaImagenes.insert(0,[str(listaImagenes[indiceIm][0][:-4]+"EcualizacionHist.jpg"), listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
     fMenuHistorial()
     
-    imagen2(nombre)
+    pintarCuadro2(nombre)
 
 
 def infoPixel():

@@ -1,10 +1,11 @@
 import numpy
 from operaciones import *
+from funcionesDf import *
 
 
 def abrirImagen():
 
-    global borrar; global listaImagenes; global indiceIm
+    global listaImagenes; global indiceIm
     nombreImagen = ""; filas = 0; columnas = 0
     matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
     histograma = []; rango = (); brillo = 0; contraste = 0; entropia = 0; histogramaAcumulado = []
@@ -29,7 +30,7 @@ def abrirImagen():
     matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
 
     # Mostrar imagen + imagen blanco
-    imagen1(nombreImagen); imagen2("blanco.png")
+    pintarCuadro1(nombreImagen); pintarCuadro2("blanco.png")
 
     imarray = numpy.array(imagen)
     cont = 0; k = 0
@@ -60,7 +61,7 @@ def abrirImagen():
     listaImagenes.insert(0, [nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado, color])
     indiceIm = 0
     
-    fEtiquetaTam()
+    fEtiquetaTam(indiceIm)
 
     cont = 0; listaAux = []; pixels = []
 
@@ -77,9 +78,10 @@ def abrirImagen():
     new_image = Image.fromarray(array)
     new_image.save('./backupImagenes/'+nombreImagen)
     
-    # Menu de historial de imagenes
-    fMenuHistorial(borrar)
-    borrar = 1
+    if (len(listaImagenes) == 1):
+        fMenuHistorial(0)
+    else:
+        fMenuHistorial()
     
 
 def guardar():
@@ -178,7 +180,7 @@ def fNegativo():
 
     if (len(listaImagenes) != 0):
         nombre = calcularNegativo()
-        imagen2(nombre)
+        pintarCuadro2(nombre)
     else:
         fError()
 
@@ -229,3 +231,88 @@ def fInfoPixel():
         infoPixel()
     else:
         fError()
+
+
+def fDiferencia():
+
+    global indiceIm
+
+    messagebox.showinfo(title="ATENCIÓN", message="A continuación debe añadir dos imagenes del mismo tamaño")
+    imagen1 = abrirImagenesDiferencia(1,0); tamImagen1 = imagen1[0]; datos1 = imagen1[1]
+    imagen2 = abrirImagenesDiferencia(2, tamImagen1); datos2 = imagen2[1]
+
+    if imagen2 == "err":
+        pintarCuadro1("blanco.png")
+        fErrorDif()
+    else:
+
+        dif = diferenciaDatos(datos1,datos2)
+        imarray = numpy.array(dif)
+        columnas, filas = tamImagen1
+        datos = list(dif)
+        matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
+        matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
+        nombreImagen = './backupImagenes/'+listaImagenes[len(listaImagenes)-1][0][:-4]+"Diferencia.jpg"
+        
+        cont = 0; k = 0
+
+        if(len(imarray.shape)<3):
+            color = 0
+            for i in range(filas):
+                if i != filas:
+                    while (cont < columnas):
+                        matrizEscalaGrises.setVal(i, cont, datos[k])
+                        cont += 1; k += 1
+                    cont = 0
+
+        elif len(imarray.shape)==3:
+            color = 1
+            for i in range(filas):
+                if i != filas:
+                    while (cont < columnas):
+                        matrizR.setVal(i, cont, int(datos[k][0]))
+                        matrizG.setVal(i, cont, int(datos[k][1]))
+                        matrizB.setVal(i, cont, int(datos[k][2]))
+
+                        # Codificación escala de grises PAL
+                        matrizEscalaGrises.setVal(i, cont, (round(0.222 * int(datos[k][0]) + round(0.707 * int(datos[k][1]))) + round(0.071 * int(datos[k][2]))))
+                        cont += 1; k += 1
+                    cont = 0
+
+        listaImagenes.insert(0,[nombreImagen.replace('./backupImagenes/', ""), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], color])
+
+        cont = 0; listaAux = []; pixels = []
+
+        for i in range(len(datos)):
+            cont += 1
+            if(cont != columnas):
+                listaAux.append(datos[i])
+            else:
+                pixels.append(listaAux)
+                cont = 0
+                listaAux = []
+
+        array = np.array(pixels, dtype=np.uint8)
+        new_image = Image.fromarray(array)
+        new_image.save(nombreImagen)
+
+        pintarCuadro1(nombreImagen)
+        fEtiquetaTam(indiceIm)
+
+        if (len(listaImagenes) == 3):
+            fMenuHistorial(0)
+        else:
+            fMenuHistorial()
+
+
+def fMapaCambio():
+
+    ventanaMapa = Toplevel(app)
+    ventanaMapa.title("Mapa de cambio")
+    ventanaMapa.geometry("300x300")
+
+    etiquetaTexto = Label(ventanaMapa, text ="Introduzca el umbral"); etiquetaTexto.grid(row=0, column=0)
+    inputUmbral = Entry(ventanaMapa); inputUmbral.grid(row=0, column=1)
+
+    bComprobar = Button(ventanaMapa, text ="Click para comprobar", command= partial(comprobarUmbral, [ventanaMapa, inputUmbral]))
+    bComprobar.grid(row=2, column=0)

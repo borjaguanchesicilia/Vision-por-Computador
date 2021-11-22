@@ -16,6 +16,7 @@ listaImagenes = []; indiceIm = 0
 listaPuntos = []; cont = 0
 nuevosPixels = []
 valorGamma = 0
+umbral = 0
 
 
 def fCopiaImagen(nombre):
@@ -64,14 +65,14 @@ def fMenuHistorial(borrarHistorial=1):
     barraMenu.add_cascade(label="Historial", menu=menuHistorial)
 
 
-def fEtiquetaTam():
+def fEtiquetaTam(indice):
     global etiquetaTam
     etiquetaTam.destroy()
-    etiquetaTam = tk.Label(app,text =f'{listaImagenes[indiceIm][1]} x {listaImagenes[indiceIm][2]} px')
+    etiquetaTam = tk.Label(app,text =f'{listaImagenes[indice][1]} x {listaImagenes[indice][2]} px')
     etiquetaTam.place(relx = 0.0, rely = 1.0, anchor ='sw')
 
 
-def imagen1(nombre):
+def pintarCuadro1(nombre):
 
     im = ImageTk.PhotoImage(Image.open(nombre).resize((390,265)))
     imagen1 = tk.Label(image=im)
@@ -79,7 +80,7 @@ def imagen1(nombre):
     imagen1.place(x=90, y=90)
 
 
-def imagen2(nombre):
+def pintarCuadro2(nombre):
 
     im2 = ImageTk.PhotoImage(Image.open(nombre).resize((390,265)))
     imagen2 = tk.Label(image=im2)
@@ -95,8 +96,8 @@ def reabrirImagen(val):
 
     fMenuHistorial()
     
-    imagen1("./backupImagenes/"+listaImagenes[indiceIm][0]); imagen2("blanco.png")
-    fEtiquetaTam()
+    pintarCuadro1("./backupImagenes/"+listaImagenes[indiceIm][0]); pintarCuadro2("blanco.png")
+    fEtiquetaTam(indiceIm)
 
 
 def hide_widget(widget):

@@ -48,7 +48,7 @@ def comprobarPuntos(listaDatos):
                         array = np.array(im, dtype=np.uint8)
                         new_image = Image.fromarray(array)
                         new_image.save(nombre.replace("Copia", "ROIrojo"))
-                        imagen2(nombre.replace("Copia", "ROIrojo"))
+                        pintarCuadro2(nombre.replace("Copia", "ROIrojo"))
                         remove(nombre)
 
                         bAceptarRoi = Button(listaDatos[0], text ="Click para aceptar ROI", command= partial(confirmarRoi, [listaDatos[0], puntos]))
@@ -98,7 +98,7 @@ def confirmarRoi(datos):
     nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Roi.jpg"
     new_image.save(nombre)
 
-    listaImagenes.append([str(listaImagenes[indiceIm][0][:-4]+"Roi.jpg"), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
+    listaImagenes.insert(0,[str(listaImagenes[indiceIm][0][:-4]+"Roi.jpg"), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], listaImagenes[indiceIm][13]])
                         
     fMenuHistorial()
 
