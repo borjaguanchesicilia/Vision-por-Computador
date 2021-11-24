@@ -68,7 +68,7 @@ def confirmarRoi(datos):
 
     for i in range(datos[1][0][1], datos[1][3][1], 1):
         if i != datos[1][3][1]:
-            while (j < datos[1][3][0]):
+            while (j < datos[1][3][0]-1):
                 r = listaImagenes[indiceIm][4].getVal(i, j)
                 g = listaImagenes[indiceIm][5].getVal(i, j)
                 b = listaImagenes[indiceIm][6].getVal(i, j)
@@ -78,15 +78,14 @@ def confirmarRoi(datos):
                 matrizB.setVal(i-datos[1][0][1], j-datos[1][0][0], b)
 
                 if (listaImagenes[indiceIm][13] == 0):
-                    gris = listaImagenes[indiceIm][3].getVal(i, cont)
-                    matrizEscalaGrises.setVal(i, cont, gris)
+                    gris = listaImagenes[indiceIm][3].getVal(i, j)
+                    matrizEscalaGrises.setVal(i, j, gris)
                     listaAux.append(gris)
                 else:
                     # Codificación escala de grises PAL
                     gris = (round(0.222 * r) + round(0.707 * g) + round(0.071 * b))
-                    matrizEscalaGrises.setVal(i, cont, gris)
+                    matrizEscalaGrises.setVal(i-datos[1][0][1], j-datos[1][0][0], gris)
                     listaAux.append((r, g, b))
-
                 j += 1
 
             pixels.append(listaAux)

@@ -9,11 +9,13 @@ import numpy
 from numpy.core.numeric import indices
 from math import pow, sqrt, log2
 import matplotlib.pyplot as plt
-from funcionesAl import *
-from funcionesTl import *
-from funcionesGm import *
-from funcionesRoi import *
-from funcionesPf import *
+from principal import *
+from funciones import funciones
+from funciones import funcionesAl as ajusteLineal
+from funciones import funcionesTl as transformacionLineal
+from funciones import funcionesGm as funcionGamma
+from funciones import funcionesRoi as roi
+from funciones import funcionesPf as perfil
 
 
 def calcularHistograma(matriz, filas, columnas):
@@ -107,7 +109,7 @@ def calcularEntropia(histograma, filas, columnas):
 
 def calcularRoi():
     
-    ventanaRoi = Toplevel(app)
+    ventanaRoi = Toplevel(funciones.app)
     ventanaRoi.title("ROI")
     ventanaRoi.geometry("800x800")
 
@@ -131,10 +133,10 @@ def calcularRoi():
 
     listaPuntos = [(p1X, p1Y), (p2X, p2Y), (p3X, p3Y), (p4X, p4Y)]
     
-    bComprobarPuntos = Button(ventanaRoi, text ="Click para comprobar", command= partial(comprobarPuntos, [ventanaRoi, listaPuntos]))
+    bComprobarPuntos = Button(ventanaRoi, text ="Click para comprobar", command= partial(roi.comprobarPuntos, [ventanaRoi, listaPuntos]))
     bComprobarPuntos.grid(row=6, column=0)
 
-    im = ImageTk.PhotoImage(Image.open("ejemploROI.png").resize((390,265)))
+    im = funciones.ImageTk.PhotoImage(Image.open("./funciones/ejemploROI.png").resize((390,265)))
     imagen1 = tk.Label(ventanaRoi, image=im)
     imagen1.image = im; imagen1.place(x=180, y=180)
 
@@ -148,7 +150,6 @@ def calcularNegativo():
     matrizR.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizG.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizB.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]); matrizEscalaGrises.actualizar(listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
 
     cont = 0; listaAux = []; pixels = []
-    print(listaImagenes[indiceIm][13])
 
     for i in range(listaImagenes[indiceIm][1]):
         if i != listaImagenes[indiceIm][1]:
@@ -212,10 +213,10 @@ def calcularAjusteLineal():
     sliderContraste = tk.Scale(ventanaAl, bg="#8D8D8D", from_=0, to=255, orient='horizontal')
     sliderContraste.set(listaImagenes[indiceIm][10]); sliderContraste.grid(row=2, column=4, padx=10, pady=10)
 
-    bPrevisualizar = Button(ventanaAl, text ="Click para previsualizar", command= partial(previsualizarAjusteLineal, [sliderBrillo, sliderContraste]))
+    bPrevisualizar = Button(ventanaAl, text ="Click para previsualizar", command= partial(ajusteLineal.previsualizarAjusteLineal, [sliderBrillo, sliderContraste]))
     bPrevisualizar.grid(row=5, column=3, padx=10, pady=10)
 
-    bAplicar = Button(ventanaAl, text ="Click para aplicar", command= partial(aplicarAjusteLineal, ventanaAl))
+    bAplicar = Button(ventanaAl, text ="Click para aplicar", command= partial(ajusteLineal.aplicarAjusteLineal, ventanaAl))
     bAplicar.grid(row=6, column=3, padx=10, pady=10)
 
 
@@ -231,7 +232,7 @@ def transformacionLineal():
     etiquetaNumeroTramos.grid(row=0, column=2)
 
     tramos = Entry(ventanaTl); tramos.grid(row=1, column=2)
-    bComprobarTramos = Button(ventanaTl, text ="Click para comprobar", command= partial(comprobarNtramos, [ventanaTl, tramos]))
+    bComprobarTramos = Button(ventanaTl, text ="Click para comprobar", command= partial(transformacionLineal.comprobarNtramos, [ventanaTl, tramos]))
     bComprobarTramos.grid(row=2, column=2)
 
 
@@ -247,7 +248,7 @@ def calcularCorreccionGamma():
     etiquetaGamma.grid(row=0, column=0)
     gamma = Entry(ventanaGm); gamma.grid(row=0, column=1)
 
-    bComprobarDatos = Button(ventanaGm, text ="Click para comprobar", command= partial(comprobarDatosGamma, [gamma, ventanaGm]))
+    bComprobarDatos = Button(ventanaGm, text ="Click para comprobar", command= partial(funcionGamma.comprobarDatosGamma, [gamma, ventanaGm]))
     bComprobarDatos.grid(row=2, column=0)
 
 
@@ -269,7 +270,7 @@ def calcularEspecificacion():
     matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
 
     ruta = str(os.path.dirname(os.path.abspath(__file__)))
-    rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = "Abrir imagen",filetypes = (("Imagenes","*.jpg;*.png"),("All files","*.*"))))
+    rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = "Abrir imagen"))
     imagen = Image.open(rutaImagen, 'r')
     
     nombreImagen = rutaImagen[::-1]
@@ -288,7 +289,7 @@ def calcularEspecificacion():
     matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
 
     # Mostrar imagen
-    pintarCuadro2(nombreImagen)
+    pintarCuadro2(rutaImagen)
 
     imarray = numpy.array(imagen)
     cont = 0; k = 0
@@ -477,7 +478,7 @@ def infoPixel():
 
     pixel = [pixelX, pixelY]
 
-    bComprobarPixel = Button(ventanaIp, text ="Click para comprobar", command= partial(comprobarPixel, [pixel, ventanaIp]))
+    bComprobarPixel = Button(ventanaIp, text ="Click para comprobar", command= partial(roi.comprobarPixel, [pixel, ventanaIp]))
     bComprobarPixel.grid(row=3, column=0)
 
 
@@ -504,5 +505,5 @@ def calcularPerfil():
 
     recta = [(punto1X, punto1Y), (punto2X, punto2Y)]
 
-    bComprobarPixel = Button(ventanaPf, text ="Click para comprobar", command= partial(comprobarRecta, [ventanaPf, recta]))
+    bComprobarPixel = Button(ventanaPf, text ="Click para comprobar", command= partial(perfil.comprobarRecta, [ventanaPf, recta]))
     bComprobarPixel.grid(row=5, column=1)

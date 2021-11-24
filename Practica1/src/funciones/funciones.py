@@ -1,6 +1,6 @@
 import numpy
 from operaciones import *
-from funcionesDf import *
+from funciones import funcionesDf as diferencia
 
 
 def abrirImagen():
@@ -11,9 +11,8 @@ def abrirImagen():
     histograma = []; rango = (); brillo = 0; contraste = 0; entropia = 0; histogramaAcumulado = []
     
     ruta = str(os.path.dirname(os.path.abspath(__file__)))
-    rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = "Abrir imagen",filetypes = (("Imagenes","*.jpg;*.png"),("All files","*.*"))))
+    rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = "Abrir imagen"))
     imagen = Image.open(rutaImagen, 'r')
-    #imagen.show()
     nombreImagen = rutaImagen[::-1]
     index = 0	
     for i in range(len(nombreImagen)):
@@ -30,7 +29,7 @@ def abrirImagen():
     matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
 
     # Mostrar imagen + imagen blanco
-    pintarCuadro1(nombreImagen); pintarCuadro2("blanco.png")
+    pintarCuadro1(rutaImagen); pintarCuadro2("./funciones/blanco.png")
 
     imarray = numpy.array(imagen)
     cont = 0; k = 0
@@ -238,21 +237,21 @@ def fDiferencia():
     global indiceIm
 
     messagebox.showinfo(title="ATENCIÓN", message="A continuación debe añadir dos imagenes del mismo tamaño")
-    imagen1 = abrirImagenesDiferencia(1,0); tamImagen1 = imagen1[0]; datos1 = imagen1[1]
-    imagen2 = abrirImagenesDiferencia(2, tamImagen1); datos2 = imagen2[1]
+    imagen1 = diferencia.abrirImagenesDiferencia(1,0); tamImagen1 = imagen1[0]; datos1 = imagen1[1]
+    imagen2 = diferencia.abrirImagenesDiferencia(2, tamImagen1); datos2 = imagen2[1]
 
     if imagen2 == "err":
-        pintarCuadro1("blanco.png")
-        fErrorDif()
+        pintarCuadro1("./funciones/blanco.png")
+        diferencia.fErrorDif()
     else:
 
-        dif = diferenciaDatos(datos1,datos2)
+        dif = diferencia.diferenciaDatos(datos1,datos2)
         imarray = numpy.array(dif)
         columnas, filas = tamImagen1
         datos = list(dif)
         matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
         matrizR.actualizar(filas, columnas); matrizG.actualizar(filas, columnas); matrizB.actualizar(filas, columnas); matrizEscalaGrises.actualizar(filas, columnas)
-        nombreImagen = './backupImagenes/'+listaImagenes[len(listaImagenes)-1][0][:-4]+"Diferencia.jpg"
+        nombreImagen = "./backupImagenes/"+listaImagenes[len(listaImagenes)-1][0][:-4]+"Diferencia.jpg"
         
         cont = 0; k = 0
 
@@ -279,7 +278,7 @@ def fDiferencia():
                         cont += 1; k += 1
                     cont = 0
 
-        listaImagenes.insert(0,[nombreImagen.replace('./backupImagenes/', ""), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], color])
+        listaImagenes.insert(0,[nombreImagen.replace("./backupImagenes/", ""), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], color])
 
         cont = 0; listaAux = []; pixels = []
 
@@ -314,7 +313,7 @@ def fMapaCambio():
     etiquetaTexto = Label(ventanaMapa, text ="Introduzca el umbral"); etiquetaTexto.grid(row=0, column=0)
     inputUmbral = Entry(ventanaMapa); inputUmbral.grid(row=0, column=1)
 
-    bComprobar = Button(ventanaMapa, text ="Click para comprobar", command= partial(comprobarUmbral, [ventanaMapa, inputUmbral]))
+    bComprobar = Button(ventanaMapa, text ="Click para comprobar", command= partial(diferencia.comprobarUmbral, [ventanaMapa, inputUmbral]))
     bComprobar.grid(row=2, column=0)
 
 

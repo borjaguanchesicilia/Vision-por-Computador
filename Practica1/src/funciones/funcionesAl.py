@@ -1,10 +1,19 @@
 import numpy
 from principal import *
+from operaciones import *
 
 
 def previsualizarAjusteLineal(datos):
 
     brillo = datos[0].get(); contraste = datos[1].get()
+
+    if (listaImagenes[indiceIm][9] == 0):
+        if (len(listaImagenes[indiceIm][7]) == 0):
+            listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+        listaImagenes[indiceIm][9] = calcularBrillo(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
+    
+    if (listaImagenes[indiceIm][10] == 0):
+            listaImagenes[indiceIm][10] = calcularContraste(listaImagenes[indiceIm][7], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2], listaImagenes[indiceIm][9])
 
     if (contraste == listaImagenes[indiceIm][10]):
         valA = 1

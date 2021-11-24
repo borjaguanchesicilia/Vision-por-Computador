@@ -49,7 +49,7 @@ def fCopiaImagen(nombre):
 
     array = np.array(pixels, dtype=np.uint8)
     new_image = Image.fromarray(array)
-    nombre = "./backupImagenes/"+listaImagenes[indiceIm][0][:-4]+"Copia.jpg"
+    nombre = './backupImagenes/'+listaImagenes[indiceIm][0][:-4]+"Copia.jpg"
     new_image.save(nombre)
 
 
@@ -96,7 +96,7 @@ def reabrirImagen(val):
 
     fMenuHistorial()
     
-    pintarCuadro1("./backupImagenes/"+listaImagenes[indiceIm][0]); pintarCuadro2("blanco.png")
+    pintarCuadro1('./backupImagenes/'+listaImagenes[indiceIm][0]); pintarCuadro2("./funciones/blanco.png")
     fEtiquetaTam(indiceIm)
 
 

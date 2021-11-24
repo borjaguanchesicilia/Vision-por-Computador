@@ -22,7 +22,7 @@ def comprobarRecta(datos):
             messagebox.showerror("ERROR", f"El punto 2 Y debe ser:  1 <= Y >= {listaImagenes[indiceIm][2]}")
         else:
             ventana.destroy()
-            imagen = Image.open(listaImagenes[indiceIm][0], 'r')
+            imagen = Image.open("./backupImagenes/"+listaImagenes[indiceIm][0], 'r')
             imagenP = ImageDraw.Draw(imagen)
             imagenP.line((punto1X,punto1Y, punto2X,punto2Y), fill=255, width=6)
             imagen.show()
@@ -71,8 +71,6 @@ def comprobarRecta(datos):
                     valoresX.append(valorX)
                     valoresY.append(y)
                     valorX += 1
-
-                print(valoresX, "\n\n", valoresY)
 
                 perfil = []; perfilD = []; perfilSuavizado = []
                 [perfil.append(listaImagenes[indiceIm][3].getVal(valoresX[i], valoresY[i])) for i in range(len(valoresX))]
