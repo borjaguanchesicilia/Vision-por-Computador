@@ -35,9 +35,9 @@ def correccionGamma():
     for i in range(listaImagenes[indiceIm][1]):
         if i != listaImagenes[indiceIm][1]:
             while (j < listaImagenes[indiceIm][2]):
-                aR = listaImagenes[indiceIm][4].getVal(i, j) / 255
-                bR = pow(aR, valorGamma)
-                r = round(bR * 255)
+                aR = listaImagenes[indiceIm][4].getVal(i, j) / 255 # a' = a / 255
+                bR = pow(aR, valorGamma) # b' = a'^gamma
+                r = round(bR * 255) # b = b' * 255
 
                 aG = listaImagenes[indiceIm][5].getVal(i, j) / 255
                 bG = pow(aG, valorGamma)

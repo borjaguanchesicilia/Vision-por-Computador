@@ -101,10 +101,10 @@ def diferenciaDatos(datos1, datos2):
 
     datosResult = []
 
-    if (type(datos1[0]) == tuple):
+    if (type(datos1[0]) == tuple): # Imagen color
         [datosResult.append([abs(datos1[i][0] - datos2[i][0]), abs(datos1[i][1] - datos2[i][1]), abs(datos1[i][2] - datos2[i][2])]) for i in range(len(datos1))]
  
-    else:
+    else:  # Imagen escala grises
         [datosResult.append(abs(datos1[i] - datos2[i])) for i in range(len(datos1))]
 
     return datosResult
@@ -195,7 +195,7 @@ def calcularMapaCambio():
 
 def pintarCambio(datos1, datos2, umbral):
 
-    if (type(datos1[0]) != tuple):
+    if (type(datos1[0]) != tuple): # Imagen escala de grises
         datosResult = []
         for i in range(len(datos1)):
             gris1 = datos1[i]
@@ -207,7 +207,7 @@ def pintarCambio(datos1, datos2, umbral):
                 datosResult.append((255, 0 ,0))
             else:
                 datosResult.append(gris1)
-    else:
+    else: # Imagen de color
         datosResult = []
         for i in range(len(datos1)):
             R1 = datos1[i][0]

@@ -348,6 +348,13 @@ def calcularEspecificacion():
             listaImagenes[indiceIm][12] = calcularHistogramaAcumulado(listaImagenes[indiceIm][7])
         pO = calcularHistogramaAcumuladoNormalizado(listaImagenes[indiceIm][12], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2]) # Histograma acumulado normalizado imagen original
 
+    """
+        Vout = T(Vin) = min { j / (0 ≤ j ≤ 255) and (pO(Vin) ≤ pR(j) }
+
+        Se trata de encontrar para cada valor i, el mínimo valor j para el
+        que pR(j) es mayor o igual a pO (i).
+
+    """
 
     for i in range(256):
         j = 255
@@ -401,6 +408,12 @@ def calcularEspecificacion():
 
 def calcularEcualizacion():
 
+    """
+        k = (filas * columnas) / 256 --> Nº de pixeles que hay en cada nivel de gris
+    
+        k --> Indica el valor de la pendiente que tendrá el histograma acumulado
+    """
+
     k = (listaImagenes[indiceIm][1] * listaImagenes[indiceIm][2]) / 256
 
     if(len(listaImagenes[indiceIm][7]) == 0): # No se ha calculado el histograma
@@ -409,6 +422,13 @@ def calcularEcualizacion():
         listaImagenes[indiceIm][12] = calcularHistogramaAcumulado(listaImagenes[indiceIm][7])
     
     T = []
+
+    """"
+        Vout = [(Co(Vin) / K) - 1]
+
+        Vout tiene que ser 0 | otro valor
+    
+    """
 
     for i  in range(256):
         val = round((listaImagenes[indiceIm][12][i] / k) - 1)
