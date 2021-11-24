@@ -26,7 +26,7 @@ def abrirImagenesDiferencia(imagen, tam):
     else:
         tituloVentana = "Abrir segunda imagen"
 
-    rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = tituloVentana,filetypes = (("Imagenes","*.jpg;*.png"),("All files","*.*"))))
+    rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = tituloVentana))
     imagenAbierta = Image.open(rutaImagen, 'r')
 
     nombreImagen = rutaImagen[::-1]

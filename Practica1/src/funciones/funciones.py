@@ -85,7 +85,7 @@ def abrirImagen():
 
 def guardarComo():
 
-    ruta = filedialog.asksaveasfilename(initialdir = "/",title = "Guardar como",filetypes = (("Python files","*.py;*.pyw"),("All files","*.*")))
+    ruta = filedialog.asksaveasfilename(initialdir = "/",title = "Guardar como")
 
     nombreImagen = listaImagenes[indiceIm][0]
     imagen = Image.open('./backupImagenes/'+nombreImagen)

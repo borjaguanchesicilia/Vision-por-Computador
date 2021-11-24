@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from principal import *
 from funciones import funciones
 from funciones import funcionesAl as ajusteLineal
-from funciones import funcionesTl as transformacionLineal
+from funciones import funcionesTl as transformacionL
 from funciones import funcionesGm as funcionGamma
 from funciones import funcionesRoi as roi
 from funciones import funcionesPf as perfil
@@ -232,7 +232,7 @@ def transformacionLineal():
     etiquetaNumeroTramos.grid(row=0, column=2)
 
     tramos = Entry(ventanaTl); tramos.grid(row=1, column=2)
-    bComprobarTramos = Button(ventanaTl, text ="Click para comprobar", command= partial(transformacionLineal.comprobarNtramos, [ventanaTl, tramos]))
+    bComprobarTramos = Button(ventanaTl, text ="Click para comprobar", command= partial(transformacionL.comprobarNtramos, [ventanaTl, tramos]))
     bComprobarTramos.grid(row=2, column=2)
 
 

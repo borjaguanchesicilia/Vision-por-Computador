@@ -105,7 +105,6 @@ def nuevaVentana(listaDatos):
     x.grid(row=0, column=1)
     y = Entry(nuevaVentana)
     y.grid(row=0, column=2)
-    print(cont, listaDatos[1])
 
     if (cont == listaDatos[1]):
         bIntroducirTramo.destroy()
@@ -116,12 +115,7 @@ def nuevaVentana(listaDatos):
     else:
         Button(nuevaVentana, text='Comprobar punto', command= partial(comprobarPunto, [x, y, nuevaVentana])).grid(row=3, column=1, sticky=W, pady=4)
 
-
-
-    
-    
-        
-    
+  
 def comprobarPunto(puntos):
 
     global listaPuntos; global cont
@@ -165,7 +159,6 @@ def comprobarNtramos(listaDatos):
         if (int(nTramos) > len(num)):
              messagebox.showerror("ERROR", "Debe de introducir un número entre 2 y 7")
         else:
-            print("ventana, ", cont, int(nTramos))
             bComprobarTramos.destroy()
             bIntroducirTramo = Button(listaDatos[0], text ="Introducir nuevo tramo", command= partial(nuevaVentana, [listaDatos[0], int(nTramos)]))
             bIntroducirTramo.grid(row=3, column=2)        
