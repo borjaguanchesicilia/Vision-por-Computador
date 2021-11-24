@@ -7,7 +7,7 @@ from functools import partial
 import matplotlib.pyplot as plt
 from matriz import *
 import numpy as np
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageDraw
 
 
 app = tk.Tk(); barraMenu = tk.Menu(app); etiquetaTam = tk.Label(); bIntroducirTramo = Button(app, text ="Click para comprobar"); bComprobarTramos = Button(app, text ="Click para comprobar")

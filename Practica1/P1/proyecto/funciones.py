@@ -316,3 +316,11 @@ def fMapaCambio():
 
     bComprobar = Button(ventanaMapa, text ="Click para comprobar", command= partial(comprobarUmbral, [ventanaMapa, inputUmbral]))
     bComprobar.grid(row=2, column=0)
+
+
+def fPerfil():
+
+    if (len(listaImagenes) != 0):
+        calcularPerfil()
+    else:
+        fError()

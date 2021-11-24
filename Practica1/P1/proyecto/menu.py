@@ -32,6 +32,7 @@ def main():
     menuDatos.add_command(label="Brillo", command=fBrillo)
     menuDatos.add_command(label="Contraste", command=fContraste)
     menuDatos.add_command(label="Entropía", command=fEntropia)
+    menuDatos.add_command(label="Perfil", command=fPerfil)
     barraMenu.add_cascade(label="Datos", menu=menuDatos)
 
 

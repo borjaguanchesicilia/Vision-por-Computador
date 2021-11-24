@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import Button, Entry, Label, Image, Toplevel, filedialog, messagebox
+from tkinter import Button, Entry, Label, Image, Toplevel, filedialog
 import os
 from tkinter.constants import END
 from typing import Tuple
@@ -13,6 +13,7 @@ from funcionesAl import *
 from funcionesTl import *
 from funcionesGm import *
 from funcionesRoi import *
+from funcionesPf import *
 
 
 def calcularHistograma(matriz, filas, columnas):
@@ -478,3 +479,30 @@ def infoPixel():
 
     bComprobarPixel = Button(ventanaIp, text ="Click para comprobar", command= partial(comprobarPixel, [pixel, ventanaIp]))
     bComprobarPixel.grid(row=3, column=0)
+
+
+def calcularPerfil():
+
+    ventanaPf = Toplevel(app)
+    ventanaPf.title("Perfil")
+    ventanaPf.geometry("500x500")
+
+    etiquetaInfo = Label(ventanaPf, text =f"Introduzca dos puntos, con 1 <= X >= {listaImagenes[indiceIm][1]} e 1 <= Y >= {listaImagenes[indiceIm][2]}")
+    etiquetaInfo.grid(row=0, column=1)
+    etiquetaPunto1X = Label(ventanaPf, text =f"Punto 1: X = ")
+    etiquetaPunto1X.grid(row=1, column=0)
+    etiquetaPunto1Y = Label(ventanaPf, text =f"Punto 1: Y = ")
+    etiquetaPunto1Y.grid(row=2, column=0)
+    etiquetaPunto2X = Label(ventanaPf, text =f"Punto 2: X = ")
+    etiquetaPunto2X.grid(row=3, column=0)
+    etiquetaPunto2Y = Label(ventanaPf, text =f"Punto 2: Y = ")
+    etiquetaPunto2Y.grid(row=4, column=0)
+    punto1X = Entry(ventanaPf); punto1X.grid(row=1, column=1)
+    punto1Y = Entry(ventanaPf); punto1Y.grid(row=2, column=1)
+    punto2X = Entry(ventanaPf); punto2X.grid(row=3, column=1)
+    punto2Y = Entry(ventanaPf); punto2Y.grid(row=4, column=1)
+
+    recta = [(punto1X, punto1Y), (punto2X, punto2Y)]
+
+    bComprobarPixel = Button(ventanaPf, text ="Click para comprobar", command= partial(comprobarRecta, [ventanaPf, recta]))
+    bComprobarPixel.grid(row=5, column=1)
