@@ -21,7 +21,6 @@ def main():
     # Menu del archivo
     menuArchivo = Menu(barraMenu)
     menuArchivo.add_command(label="Abrir imagen", command=funciones.abrirImagen)
-    menuArchivo.add_command(label="Guardar", command=funciones.guardar)
     menuArchivo.add_command(label="Guardar como", command=funciones.guardarComo)
     menuArchivo.add_command(label="Salir", command=salir)
     barraMenu.add_cascade(label="Archivo", menu=menuArchivo)

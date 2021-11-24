@@ -83,12 +83,30 @@ def abrirImagen():
         fMenuHistorial()
     
 
-def guardar():
-    print(filedialog.asksaveasfilename(initialdir = "/",title = "Guardar como",filetypes = (("Python files","*.py;*.pyw"),("All files","*.*"))))
-
-
 def guardarComo():
-    print(filedialog.asksaveasfilename(initialdir = "/",title = "Save as",filetypes = (("Python files","*.py;*.pyw"),("All files","*.*"))))
+
+    ruta = filedialog.asksaveasfilename(initialdir = "/",title = "Guardar como",filetypes = (("Python files","*.py;*.pyw"),("All files","*.*")))
+
+    nombreImagen = listaImagenes[indiceIm][0]
+    imagen = Image.open('./backupImagenes/'+nombreImagen)
+
+    columnas, filas = imagen.size
+    datos = list(imagen.getdata())
+
+    cont = 0; listaAux = []; pixels = []
+
+    for i in range(len(datos)):
+        cont += 1
+        if(cont != columnas):
+            listaAux.append(datos[i])
+        else:
+            pixels.append(listaAux)
+            cont = 0
+            listaAux = []
+
+    array = np.array(pixels, dtype=np.uint8)
+    new_image = Image.fromarray(array)
+    new_image.save(ruta)
 
 
 def fError():

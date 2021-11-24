@@ -136,7 +136,7 @@ def calcularRoi():
     bComprobarPuntos = Button(ventanaRoi, text ="Click para comprobar", command= partial(roi.comprobarPuntos, [ventanaRoi, listaPuntos]))
     bComprobarPuntos.grid(row=6, column=0)
 
-    im = funciones.ImageTk.PhotoImage(Image.open("./funciones/ejemploROI.png").resize((390,265)))
+    im = funciones.ImageTk.PhotoImage(Image.open("./funciones/ejemploROI.jpeg").resize((390,265)))
     imagen1 = tk.Label(ventanaRoi, image=im)
     imagen1.image = im; imagen1.place(x=180, y=180)
 
