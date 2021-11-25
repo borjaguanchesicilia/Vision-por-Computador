@@ -43,7 +43,7 @@ def comprobarRecta(datos):
                 valoresX = [] # Lista de valores de x dando valores a y
                 valoresY = []
                 valorY = punto1Y
-                while(valorY < punto2Y):
+                while(valorY < punto2Y-1):
                     x = abs(int(valorY / a - b))
                     valoresY.append(valorY)
                     valoresX.append(x)
@@ -66,7 +66,7 @@ def comprobarRecta(datos):
                 valoresY = [] # Lista de valores de y dando valores a x
                 valoresX = [] # Lista de valores de X
                 valorX = punto1X
-                while(valorX < punto2X):
+                while(valorX < punto2X-1):
                     y = abs(int(a * valorX + b))
                     valoresX.append(valorX)
                     valoresY.append(y)
