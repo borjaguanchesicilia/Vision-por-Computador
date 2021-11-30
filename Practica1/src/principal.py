@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from matriz import *
 import numpy as np
 from PIL import Image, ImageTk, ImageDraw
+import shutil
 
 
 app = tk.Tk(); barraMenu = tk.Menu(app); etiquetaTam = tk.Label(); bIntroducirTramo = Button(app, text ="Click para comprobar"); bComprobarTramos = Button(app, text ="Click para comprobar")
@@ -15,8 +16,10 @@ borrar = 0
 listaImagenes = []; indiceIm = 0
 listaPuntos = []; cont = 0
 nuevosPixels = []
+brilloAl = 0; contrasteAl = 0
 valorGamma = 0
 umbral = 0
+valAl = 0; valTf = 0
 
 
 def fCopiaImagen(nombre):

@@ -230,10 +230,12 @@ def transformacionLineal():
 
     etiquetaNumeroTramos = Label(ventanaTl, text ="Introduzca el nº de tramos lineales. (2 <= nº tramos >= 7)")
     etiquetaNumeroTramos.grid(row=0, column=2)
+    etiquetaInfo = Label(ventanaTl, text ="Si no se añaden, se agregarán un punto (0, Y) y otro (X, 255)")
+    etiquetaInfo.grid(row=1, column=2)
 
-    tramos = Entry(ventanaTl); tramos.grid(row=1, column=2)
+    tramos = Entry(ventanaTl); tramos.grid(row=2, column=2)
     bComprobarTramos = Button(ventanaTl, text ="Click para comprobar", command= partial(transformacionL.comprobarNtramos, [ventanaTl, tramos]))
-    bComprobarTramos.grid(row=2, column=2)
+    bComprobarTramos.grid(row=3, column=2)
 
 
 def calcularCorreccionGamma():
@@ -416,6 +418,8 @@ def calcularEcualizacion():
 
     k = (listaImagenes[indiceIm][1] * listaImagenes[indiceIm][2]) / 256
 
+    print(k)
+
     if(len(listaImagenes[indiceIm][7]) == 0): # No se ha calculado el histograma
         listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
     if(len(listaImagenes[indiceIm][12]) == 0): # No se ha calculado el histograma acumulado
@@ -431,7 +435,9 @@ def calcularEcualizacion():
     """
 
     for i  in range(256):
+        print(listaImagenes[indiceIm][12][i], end=" ")
         val = round((listaImagenes[indiceIm][12][i] / k) - 1)
+        print(val)
         if (val < 0):
             T.append(0)
         else:

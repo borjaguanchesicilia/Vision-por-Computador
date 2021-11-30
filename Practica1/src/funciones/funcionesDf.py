@@ -76,7 +76,7 @@ def abrirImagenesDiferencia(imagen, tam):
                     cont += 1; k += 1
                 cont = 0
 
-    listaImagenes.append([nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado, color])
+    listaImagenes.insert(0, [nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado, color])
     indiceIm = len(listaImagenes) - 1
 
     cont = 0; listaAux = []; pixels = []
@@ -102,7 +102,7 @@ def diferenciaDatos(datos1, datos2):
     datosResult = []
 
     if (type(datos1[0]) == tuple): # Imagen color
-        [datosResult.append([abs(datos1[i][0] - datos2[i][0]), abs(datos1[i][1] - datos2[i][1]), abs(datos1[i][2] - datos2[i][2])]) for i in range(len(datos1))]
+        [datosResult.append((abs(datos1[i][0] - datos2[i][0]), abs(datos1[i][1] - datos2[i][1]), abs(datos1[i][2] - datos2[i][2]))) for i in range(len(datos1))]
  
     else:  # Imagen escala grises
         [datosResult.append(abs(datos1[i] - datos2[i])) for i in range(len(datos1))]
@@ -117,11 +117,11 @@ def comprobarUmbral(datos):
     ventana = datos[0]; inputUmbral = datos[1].get()
 
     if (inputUmbral.isdigit() != True):
-        messagebox.showerror("ERROR", f"El umbral debe de ser un número entre 20 y 80")
+        messagebox.showerror("ERROR", f"El umbral debe de ser un número entre 0 y 255")
     else:
         inputUmbral = int(inputUmbral)
-        if (inputUmbral < 20 or inputUmbral > 80):
-            messagebox.showerror("ERROR", f"El umbral debe de ser un número entre 20 y 80")
+        if (inputUmbral < 0 or inputUmbral > 255):
+            messagebox.showerror("ERROR", f"El umbral debe de ser un número entre 0 y 255")
         else:
             umbral = inputUmbral
             ventana.destroy()
@@ -167,7 +167,6 @@ def calcularMapaCambio():
                 cont = 0
 
         listaImagenes.insert(0,[nombreImagen.replace('./backupImagenes/', ""), filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, [], (), 0, 0, 0, [], color])
-        indiceIm = len(listaImagenes) - 1
 
         cont = 0; listaAux = []; pixels = []
 

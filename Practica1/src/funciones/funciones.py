@@ -9,7 +9,7 @@ def abrirImagen():
     nombreImagen = ""; filas = 0; columnas = 0
     matrizR = Matriz(0, 0); matrizG = Matriz(0, 0); matrizB = Matriz(0, 0); matrizEscalaGrises = Matriz(0, 0)
     histograma = []; rango = (); brillo = 0; contraste = 0; entropia = 0; histogramaAcumulado = []
-    
+        
     ruta = str(os.path.dirname(os.path.abspath(__file__)))
     rutaImagen = str(filedialog.askopenfilename(initialdir = ruta,title = "Abrir imagen"))
     imagen = Image.open(rutaImagen, 'r')
@@ -58,7 +58,6 @@ def abrirImagen():
                 cont = 0
 
     listaImagenes.insert(0, [nombreImagen, filas, columnas, matrizEscalaGrises, matrizR, matrizG, matrizB, histograma, rango, brillo, contraste, entropia, histogramaAcumulado, color])
-    indiceIm = 0
     
     fEtiquetaTam(indiceIm)
 
@@ -278,7 +277,7 @@ def fDiferencia():
             for i in range(filas):
                 if i != filas:
                     while (cont < columnas):
-                        matrizEscalaGrises.setVal(i, cont, datos[k])
+                        matrizEscalaGrises.setVal(i, cont, datos[k][0])
                         cont += 1; k += 1
                     cont = 0
 

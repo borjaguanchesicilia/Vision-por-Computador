@@ -1,5 +1,6 @@
+import os
 import sys
-import tkinter
+from tkinter import *
 from funciones import funciones
 from principal import *
 from PIL import ImageTk
@@ -53,6 +54,11 @@ def main():
 
     
     funciones.app.config(menu=barraMenu)
+
+if os.path.isdir('./backupImagenes'):
+    shutil.rmtree('./backupImagenes', ignore_errors=True)
+
+os.mkdir('./backupImagenes')
 
 main()
 funciones.app.mainloop()
