@@ -418,8 +418,6 @@ def calcularEcualizacion():
 
     k = (listaImagenes[indiceIm][1] * listaImagenes[indiceIm][2]) / 256
 
-    print(k)
-
     if(len(listaImagenes[indiceIm][7]) == 0): # No se ha calculado el histograma
         listaImagenes[indiceIm][7] = calcularHistograma(listaImagenes[indiceIm][3], listaImagenes[indiceIm][1], listaImagenes[indiceIm][2])
     if(len(listaImagenes[indiceIm][12]) == 0): # No se ha calculado el histograma acumulado
@@ -435,9 +433,7 @@ def calcularEcualizacion():
     """
 
     for i  in range(256):
-        print(listaImagenes[indiceIm][12][i], end=" ")
         val = round((listaImagenes[indiceIm][12][i] / k) - 1)
-        print(val)
         if (val < 0):
             T.append(0)
         else:

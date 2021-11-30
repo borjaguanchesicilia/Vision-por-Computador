@@ -33,9 +33,9 @@ def previsualizarAjusteLineal(datos):
     for i in range(listaImagenes[indiceIm][1]):
         if i != listaImagenes[indiceIm][1]:
             while (cont < listaImagenes[indiceIm][2]):
-                r = valA * listaImagenes[indiceIm][4].getVal(i, cont) + valB
-                g = valA * listaImagenes[indiceIm][5].getVal(i, cont) + valB
-                b = valA * listaImagenes[indiceIm][6].getVal(i, cont) + valB
+                r = round(valA * listaImagenes[indiceIm][4].getVal(i, cont) + valB)
+                g = round(valA * listaImagenes[indiceIm][5].getVal(i, cont) + valB)
+                b = round(valA * listaImagenes[indiceIm][6].getVal(i, cont) + valB)
                 if (r < 0): r = 0
                 elif (r > 255): r = 255 
                 if (g < 0): g = 0
